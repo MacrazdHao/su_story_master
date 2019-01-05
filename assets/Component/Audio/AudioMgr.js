@@ -2,9 +2,9 @@
  * @author kunji
  * @file  音乐控制组件
  * @todo 
+ * @date 2019/1/5
  */
-console.log("###### init  audio manager ############");
-// 声音管理模块对象 
+
 var AudioMgr = {
     mute: -1, // 0没有静音，1为静音;
     musicPath: null,
@@ -17,7 +17,6 @@ var AudioMgr = {
 
         this.mute = (mute) ? 1 : 0;
         if (this.mute === 1) { // 静音
-           
             cc.audioEngine.stopMusic();
         }
         else {
@@ -26,13 +25,11 @@ var AudioMgr = {
         }
     }, 
     
-
     stopMusic: function() {
         cc.audioEngine.stopMusic();
         this.musicPath = null;
     }, 
     
-    // 播放背景音乐
     playMusic: function(filePath, loop) {
         cc.audioEngine.stopMusic(); 
         let url = cc.url.raw(filePath);

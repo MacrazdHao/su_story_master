@@ -1,3 +1,9 @@
+/**
+ * @author kunji
+ * @file  音乐控制组件
+ * @todo 
+ * @date 2019/1/5
+ */
 var AudioMgr= require("AudioMgr");
 var Constants = require("Consts");
 cc.Class({
@@ -24,13 +30,7 @@ cc.Class({
     },
     
     start: function() { 
-        // 表示是music的开关；
-            if (AudioMgr.mute === 1) {
-                this.sp.spriteFrame = this.offSprite; 
-            }
-            else {
-                this.sp.spriteFrame = this.onSprite; 
-            }
+       
     }, 
     
     // 声音按钮按下，切换状态；
