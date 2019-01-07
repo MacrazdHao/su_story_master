@@ -6,10 +6,10 @@
 cc.Class({
   extends: cc.Component,
   properties: {},
-  init() {
+  init(dadNode,title,content,func) {
     
   },
   lateInit() {
-
+    
   }
 });
