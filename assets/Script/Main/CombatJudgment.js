@@ -6,7 +6,10 @@
 cc.Class({
   extends: cc.Component,
   properties: {},
-  init(){
-    
-  }
+  init(g) {
+    this._game = g
+  },
+  lateInit() {
+
+  },
 });

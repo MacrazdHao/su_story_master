@@ -3,15 +3,8 @@
  * @file  怪物数据
  * @todo 
  */
-cc.Class({
-  extends: cc.Component,
+var monsterData={
 
-  properties: {
-  },
-  init(){
+}
 
-  },
-  lateInit(){
-    
-  }
-});
+module.exports = monsterData;
