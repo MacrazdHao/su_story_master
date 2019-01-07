@@ -4,12 +4,19 @@
  * @todo 
  * @description 在这里获得所有数据
  */
+var battleData = require("BattleData");
+var chapterData = require("ChapterData")
+var missionData = require("MissionData")
+var monsterData = require("MonsterData")
+var statusData = require("StatusData")
 cc.Class({
   extends: cc.Component,
 
-  properties: {},
+  properties: {
+
+  },
   init() {
-  
+
   },
   lateInit() {
 

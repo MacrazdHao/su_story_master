@@ -5,9 +5,13 @@
  */
 cc.Class({
   extends: cc.Component,
-  properties: {},
-  init(data) {
+  properties: {
     
+  },
+  init(data, g) {
+    this._game = g
+    this.data = data
+    this.lateInit()
   },
   lateInit() {
 

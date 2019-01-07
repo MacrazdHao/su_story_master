@@ -3,15 +3,8 @@
  * @file  每个关卡的数据
  * @todo 
  */
-cc.Class({
-  extends: cc.Component,
+var missionData={
 
-  properties: {
-  },
-  init(){
+}
 
-  },
-  lateInit(){
-    
-  }
-});
+module.exports = missionData;

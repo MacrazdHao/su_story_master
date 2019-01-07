@@ -5,11 +5,27 @@
  */
 cc.Class({
   extends: cc.Component,
-  properties: {},
-  init() {
-    
+  properties: {
+    title: cc.Label,
+    content: cc.Label,
+  },
+  init(dadNode, data, func) {
+    this.node.parent = dadNode
+    this.data = data
+    this.confirmCallback = func
+    this.lateInit()
   },
   lateInit() {
-
+    this.node.x = 0
+    this.node.y = 0
+    this.title.string = this.data.title
+    this.content.string = this.data.content
+    this.node.runAction(cc.show())
+  },
+  onConcelButton() {
+    this.node.runAction(cc.hide())
+  },
+  onConfirmButton() {
+    this.confirmCallback()
   }
 });

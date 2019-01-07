@@ -3,15 +3,8 @@
  * @file  状态系统数据
  * @todo 
  */
-cc.Class({
-  extends: cc.Component,
+var statusData={
 
-  properties: {
-  },
-  init(){
+}
 
-  },
-  lateInit(){
-    
-  }
-});
+module.exports = statusData;

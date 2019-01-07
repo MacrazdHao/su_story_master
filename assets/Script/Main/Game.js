@@ -16,6 +16,6 @@ cc.Class({
     this._controller = c
   },
   lateInit() {
-
+    
   }
 });
