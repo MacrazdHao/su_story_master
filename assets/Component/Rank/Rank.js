@@ -56,10 +56,17 @@ cc.Class({
       type: 'text',
       text: '',
       style: {
-        left: 75,
-        top: 220,
-        width: 200,
-        height: 150,
+        left: 0,
+        top: 0,
+        //width: this.windowWidth,
+        //height: this.windowHeight,
+        lineHeight: 600,
+        backgroundColor: '#FFFFFF00',
+        borderColor: '#FFFFFF',
+        color: '#FFFFFF',
+        textAlign: 'center',
+        fontSize: 40,
+        borderRadius: 4
       }
     })
     this.getUserInfobutton.onTap((res) => {
