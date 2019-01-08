@@ -21,15 +21,35 @@ cc.Class({
   lateInit() {
 
   },
+  initPlayerData() {
+    this.player = {
+      level: 1,
+      cards: [],
+      item: [],
+      progress: 0,
+      blood: 1,
+      status: [],
+      equipment: [],
+    }
+  },
   // -------------------- 存档原始与微信API -----------------------
   loadData() {
-
+    this.player = JSON.parse(cc.sys.localStorage.getItem('userData'));
+    if (!this.player) {
+      initPlayerData()
+    }
   },
   saveData() {
-
+    cc.sys.localStorage.setItem('userData', JSON.stringify(this.player));
   },
   checkIsFristTimePlay() {
-
+    let isFristTime = cc.sys.localStorage.getItem('isFristTime')
+    if (!isFristTime) {
+      cc.sys.localStorage.setItem('isFristTime', false);
+      return true
+    } else {
+      return false
+    }
   },
   loadDataWX() {
 
