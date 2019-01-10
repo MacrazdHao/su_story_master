@@ -52,7 +52,25 @@ cc.Class({
     name: '',
     words: ['', '', ''],
     blood: 1,
-    cards: [],
+    cards: [{
+      name: 'punch',
+      content: 'give a punch !',
+      cardAtt: 0,
+      cardValue: 1,
+      cardIcon:'fight'
+    }, {
+      name: 'run',
+      content: 'give a run !',
+      cardAtt: 1,
+      cardValue: 1,
+      cardIcon:'speed'
+    }, {
+      name: 'skill',
+      content: 'give a skill !',
+      cardAtt: 2,
+      cardValue: 1,
+      cardIcon:'skill'
+    }],
     status: [],
     level: 1,
     id: 0,//根据id读取Prefab

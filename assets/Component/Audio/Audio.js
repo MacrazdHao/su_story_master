@@ -7,7 +7,7 @@ cc.Class({
   extends: cc.Component,
   properties: {
     volume: 1,
-    audios: [cc.AudioClip],
+   // audios: [cc.AudioClip],
     audioPrefab: cc.Prefab,
     audioSource: cc.AudioSource,
   },

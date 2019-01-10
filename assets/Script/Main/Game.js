@@ -36,7 +36,6 @@ cc.Class({
     this.status = 1;
     this.player = this._controller.data.player;
     this.monster = this._controller.data.monster;
-    this.action = this._controller.action;
     this.combatJudge = this._controller.referee;
     this.dialog = this._controller.dialog;
     this.page = this._controller.page;
@@ -122,8 +121,6 @@ cc.Class({
      return;
    }
    this.currentAICard.active = true;
-   this.action.playerOutCard(this.currentPlayerCard)
-   this.action.AIoutCard(this.currentAICard)
    this.judgeWinOrFail();
     // 在数据种去除该卡牌
     let cardArr = this.player.cards;
@@ -148,7 +145,6 @@ cc.Class({
   },
   onPlayerCardWin() {
     this.resetCard();
-    this.action.onPlayerCardWin();
     // this.scheduleOnce(() => {
     //   if (this.AI.data.blood == 1) {
     //     this.nextFight()
@@ -159,7 +155,6 @@ cc.Class({
     // }, 1)
   },
   onAICardWin() {
-    this.action.onAICardWin();
     this.scheduleOnce(() => {
       if (this.player.blood == 1) {
         this.onGameOver()
