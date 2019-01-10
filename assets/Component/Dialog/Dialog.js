@@ -18,14 +18,17 @@ cc.Class({
   lateInit() {
     this.node.x = 0
     this.node.y = 0
+    this.node.active = true;
     this.title.string = this.data.title
     this.content.string = this.data.content
     this.node.runAction(cc.show())
   },
+
   onConcelButton() {
     this.node.runAction(cc.hide())
   },
   onConfirmButton() {
+    this.onConcelButton();
     this.confirmCallback()
   }
 });

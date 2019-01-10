@@ -13,15 +13,23 @@ cc.Class({
   extends: cc.Component,
 
   properties: {
-
+    isFristTime:true,
   },
   init() {
-
+    this.initPlayerData();
+    this.initMosterData();
   },
   lateInit() {
 
   },
   initPlayerData() {
+    let userData = cc.sys.localStorage.getItem("userData");
+    if (userData) {
+      this.player = JSON.parse(userData);
+      this.isFristTime = false;
+      return;
+    }
+    
     this.player = {
       level: 1,
       cards: [],
@@ -31,7 +39,31 @@ cc.Class({
       status: [],
       equipment: [],
     }
+    let cardArr = battleData.card;
+    cardArr.forEach(element => {
+      this.player.cards.push(element);
+    });  
+    this.saveData();
+    this.isFristTime = true;
   },
+
+  initMosterData () {
+    this.monster = {
+    name: '',
+    words: ['', '', ''],
+    blood: 1,
+    cards: [],
+    status: [],
+    level: 1,
+    id: 0,//根据id读取Prefab
+    }
+    let cardArr = monsterData.monsterCard;
+    cardArr.forEach(element => {
+      this.monster.cards.push(element);
+    }); 
+    console.log("monster",this.monster);
+  },
+
   // -------------------- 存档原始与微信API -----------------------
   loadData() {
     this.player = JSON.parse(cc.sys.localStorage.getItem('userData'));
@@ -75,5 +107,8 @@ cc.Class({
     })
     return false
   },
+  
+
   // -------------------- 其他数据存储 ----------------
+
 });

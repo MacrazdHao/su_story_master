@@ -9,6 +9,7 @@ cc.Class({
     volume: 1,
     audios: [cc.AudioClip],
     audioPrefab: cc.Prefab,
+    audioSource: cc.AudioSource,
   },
   init() {
     this.audio = []
@@ -29,11 +30,15 @@ cc.Class({
   },
   onPlayAudio(num) {
     if (this.audio[num].isPlaying) {
-      this.audio[num].stop()
-      this.audio[num].rewind()
-      this.audio[num].play()
+      this.audios[num].stop()
+      this.audios[num].rewind()
+      this.audios[num].play()
     } else {
-      this.audio[num].play()
+      this.audios[num].play()
     }
-  }
+  },
+  start() {
+    cc.log(this.audios,"dkfjdlskfjasldkfj");
+   // this.onPlayAudio(1);
+  },
 });

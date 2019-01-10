@@ -12,4 +12,15 @@ cc.Class({
   lateInit() {
 
   },
+  checkWhoWin(cardData, AIData) {
+    // 比较哪张卡牌厉害
+    if ((cardData.cardAtt != 0 && cardData.cardAtt > AIData.cardAtt) || (cardData.cardAtt == 0 && AIData.cardAtt == 2)) {
+      return true
+    } else {
+      return false
+    }
+  },
+  showResult () {
+    
+  },
 });

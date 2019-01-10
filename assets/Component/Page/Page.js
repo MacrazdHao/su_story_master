@@ -7,10 +7,10 @@ cc.Class({
   extends: cc.Component,
   properties: {
     status: 0, //页面状态
-    pages: [],
+    pages: [cc.Node],
   },
   init() {
-
+    this.onOpenPage(2);
   },
   lateInit() {
     this.width = cc.director.getVisibleSize().width
@@ -35,5 +35,23 @@ cc.Class({
       canvas.fitWidth = false;
       console.log("winSize: fitHeight");
     }
-  }
+  },
+
+  onOpenPage(num,callFun) {
+    this.closeAllPages()
+    this.pages[num].active = true
+    if (callFun) {
+      this.callFun();
+    }
+  },
+
+  onButtonOpenPage(event, cust) {
+    this.onOpenPage(cust)
+  },
+ 
+  closeAllPages() {
+    this.pages.forEach(element => {
+      element.active = false
+    });
+  },
 });

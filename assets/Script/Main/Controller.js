@@ -14,13 +14,25 @@ cc.Class({
     game: require('Game'),
     referee: require('CombatJudgment'),
     AI: require('AI'),
-
+    action: require('Action'),
     isWeChat: false,
   },
+  init(){
+    this.game.init(this);
+    this.data.init();
+    this.action.init(this.game);
+    this.referee.init(this.game);
+    this.page.init();
+   // this.dialog.init(this.game);
+
+   // this.pages.init()
+  },
+
   start() {
     if (this.isWeChat) {
       this.rank.init(this)
     }
+    this.init();
   },
   // ------------ 按钮绑定 --------------
   onStartButton(){
