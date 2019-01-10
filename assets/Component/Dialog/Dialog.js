@@ -9,6 +9,7 @@ cc.Class({
     title: cc.Label,
     content: cc.Label,
   },
+  
   init(dadNode, data, func) {
     this.node.parent = dadNode
     this.data = data
