@@ -3,33 +3,34 @@
  * @file  处理缓存和全局数据
  * @todo 
  * @description 在这里获得所有数据
+ * @progress 初始化=>判断是否有存档=>有则显示两个按钮（载入和重新开始），没有则显示开始按钮
  */
-var battleData = require("BattleData");
-var chapterData = require("ChapterData")
-var missionData = require("MissionData")
-var monsterData = require("MonsterData")
-var statusData = require("StatusData")
 cc.Class({
   extends: cc.Component,
 
   properties: {
-    isFristTime:true,
+    isFristTime: true,
+    levelData: cc.JsonAsset, //关卡数据
+    kongfuData: cc.JsonAsset, //玩家出招表kongfu.json
+  },
+  // -------------------- 全局数据管理-----------------
+  start() {
+    this._controller = cc.director.getScene().getChildByName('Canvas').getChildByName('Controller').getComponent('Controller')
+    this._dialog = this._controller.dialog
   },
   init() {
-    this.initPlayerData();
-    this.initMosterData();
+    if (this.checkIsFristTimePlay()) {
+      this.initPlayerData()
+      this.initLevelData(1)
+    } else {
+      this.loadData()
+    }
   },
   lateInit() {
 
   },
+  //新建游戏时调用
   initPlayerData() {
-    let userData = cc.sys.localStorage.getItem("userData");
-    if (userData) {
-      this.player = JSON.parse(userData);
-      this.isFristTime = false;
-      return;
-    }
-    
     this.player = {
       level: 1,
       cards: [],
@@ -39,58 +40,35 @@ cc.Class({
       status: [],
       equipment: [],
     }
-    let cardArr = battleData.card;
-    cardArr.forEach(element => {
-      this.player.cards.push(element);
-    });  
-    this.saveData();
-    this.isFristTime = true;
   },
-
-  initMosterData () {
-    this.monster = {
-    name: '',
-    words: ['', '', ''],
-    blood: 1,
-    cards: [{
-      name: 'punch',
-      content: 'give a punch !',
-      cardAtt: 0,
-      cardValue: 1,
-      cardIcon:'fight'
-    }, {
-      name: 'run',
-      content: 'give a run !',
-      cardAtt: 1,
-      cardValue: 1,
-      cardIcon:'speed'
-    }, {
-      name: 'skill',
-      content: 'give a skill !',
-      cardAtt: 2,
-      cardValue: 1,
-      cardIcon:'skill'
-    }],
-    status: [],
-    level: 1,
-    id: 0,//根据id读取Prefab
-    }
-    let cardArr = monsterData.monsterCard;
-    cardArr.forEach(element => {
-      this.monster.cards.push(element);
-    }); 
-    console.log("monster",this.monster);
+  /**
+   * 根据当前关卡初始化怪物数据,每次进入新关卡时调用
+   * @param {string} level - 关卡数
+   */
+  initLevelData(level) {
+    // todo 拿取json数据并且获取 使用完之后销毁数据
+    var battle = this.battleData.json
+    console.log("monster", battle)
   },
 
   // -------------------- 存档原始与微信API -----------------------
   loadData() {
-    this.player = JSON.parse(cc.sys.localStorage.getItem('userData'));
-    if (!this.player) {
-      initPlayerData()
+    let data = JSON.parse(cc.sys.localStorage.getItem('userData'));
+    if (!data) {
+      this.initPlayerData()
+      this.initLevelData(1)
+      return
+    } else {
+      this.player = data.player
+      this.level = data.level
+      this.initLevelData(this.level)
     }
   },
   saveData() {
-    cc.sys.localStorage.setItem('userData', JSON.stringify(this.player));
+    cc.sys.localStorage.setItem('userData', JSON.stringify({
+      player: this.player,
+      level: this.level
+    }));
   },
   checkIsFristTimePlay() {
     let isFristTime = cc.sys.localStorage.getItem('isFristTime')
@@ -101,31 +79,31 @@ cc.Class({
       return false
     }
   },
-  loadDataWX() {
+  // loadDataWX() {
 
-  },
-  saveDataWX() {
+  // },
+  // saveDataWX() {
 
-  },
-  checkIsFristTimePlayWX() {
-    // 判断是否第一次游戏 是新玩家则返回true
-    let self = this
-    wx.getStorage({
-      key: 'isFristTime',
-      fail: (res) => {
-        self._controller.gameController.onOpenGuidePage()
-        wx.setStorage({
-          key: 'isFristTime',
-          data: {
-            isFristTime: 1
-          }
-        })
-        return true
-      }
-    })
-    return false
-  },
-  
+  // },
+  // checkIsFristTimePlayWX() {
+  //   // 判断是否第一次游戏 是新玩家则返回true
+  //   let self = this
+  //   wx.getStorage({
+  //     key: 'isFristTime',
+  //     fail: (res) => {
+  //       self._controller.gameController.onOpenGuidePage()
+  //       wx.setStorage({
+  //         key: 'isFristTime',
+  //         data: {
+  //           isFristTime: 1
+  //         }
+  //       })
+  //       return true
+  //     }
+  //   })
+  //   return false
+  // },
+
 
   // -------------------- 其他数据存储 ----------------
 

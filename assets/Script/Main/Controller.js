@@ -17,7 +17,6 @@ cc.Class({
     isWeChat: false,
   },
   init(){
-    this.game.init(this);
     this.data.init();
    // this.action.init(this.game);
     this.referee.init(this.game);
