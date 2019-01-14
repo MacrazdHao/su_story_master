@@ -25,6 +25,7 @@ cc.Class({
     } else {
       this.loadData()
     }
+    this.lateInit()
   },
   lateInit() {
 
