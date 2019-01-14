@@ -16,9 +16,10 @@ cc.Class({
   // -------------------- 全局数据管理-----------------
   start() {
     this._controller = cc.director.getScene().getChildByName('Canvas').getChildByName('Controller').getComponent('Controller')
-    this._dialog = this._controller.dialog
+    this._dialog = this._controller.dialog;
   },
   init() {
+   // cc.sys.localStorage.removeItem('userData')
     if (this.checkIsFristTimePlay()) {
       this.initPlayerData()
       this.initLevelData(1)
@@ -40,7 +41,31 @@ cc.Class({
       blood: 1,
       status: [],
       equipment: [],
-    }
+    },
+  
+   this.card = [{
+        name: 'punch',
+        content: 'give a punch !',
+        cardAtt: 0,
+        cardValue: 1,
+        cardIcon:'fight'
+    }, {
+        name: 'run',
+        content: 'give a run !',
+        cardAtt: 1,
+        cardValue: 1,
+        cardIcon:'speed'
+    }, {
+        name: 'skill',
+        content: 'give a skill !',
+        cardAtt: 2,
+        cardValue: 1,
+        cardIcon:'skill'
+    }];
+    this.card.forEach(element => {
+      this.player.cards.push(element);
+    });
+      
   },
   /**
    * 根据当前关卡初始化怪物数据,每次进入新关卡时调用
@@ -48,8 +73,9 @@ cc.Class({
    */
   initLevelData(level) {
     // todo 拿取json数据并且获取 使用完之后销毁数据
-    var battle = this.battleData.json
-    console.log("monster", battle)
+    var battle = this.levelData.json
+    this.monster = battle[level];
+    console.log("monster", battle,this.monster)
   },
 
   // -------------------- 存档原始与微信API -----------------------
@@ -80,6 +106,14 @@ cc.Class({
       return false
     }
   },
+
+  //下一回合，升级
+  upgradePlayerLevel () {
+    this.player.blood += 1;
+    this.player.level += 1;
+    this.saveData();
+  },
+  
   // loadDataWX() {
 
   // },

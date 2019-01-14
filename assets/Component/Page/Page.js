@@ -9,7 +9,8 @@ cc.Class({
     status: 0, //页面状态
     pages: [cc.Node],
   },
-  init() {
+  init(c) {
+    this._controller = c;
     this.onOpenPage(2);
   },
   lateInit() {
@@ -46,7 +47,11 @@ cc.Class({
   },
 
   onButtonOpenPage(event, cust) {
-    this.onOpenPage(cust)
+    this.onOpenPage(cust);
+  },
+
+  startGame () {
+    this._controller.game.initUI();
   },
  
   closeAllPages() {
