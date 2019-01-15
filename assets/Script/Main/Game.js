@@ -33,7 +33,6 @@ cc.Class({
     }
   },
   initUI() {
-    console.log("初始化UI");
     this.status = 1;
     this._dataMgr = this._controller.data;
     this.player = this._dataMgr.player;
@@ -41,6 +40,7 @@ cc.Class({
     this.combatJudge = this._controller.referee;
     this.dialog = this._controller.dialog;
     this.page = this._controller.page;
+    this._aiMgr = this.node.getChildByName('AI').getComponent('AI'); 
     this.onPlayerLoadCard();
     this.onAIRandomCard();
 
@@ -70,6 +70,7 @@ cc.Class({
   },
 
   onPlayerLoadCard() {
+    console.log("初始化玩家手里的卡牌",this.player.cards);
     this.recoveryUICards();
     this.currentPlayerCardArr = [];
     let cardArr = this.player.cards;
@@ -90,15 +91,19 @@ cc.Class({
 
   //还需加入对话
   onAIRandomCard() {
-    console.log(this.monster, "怪物随机数组");
-    // this.AI = this.monster[randomNum].monster[monsterNum];
-    // this.instantiateCard(this,monsterCard,this.aiCard);
+    let randomNum = Math.floor(Math.random() * 4)
+    this._dataMgr.initLevelData(randomNum);
+    console.log(this.monster, "随机到的怪物");
     // this.currentAICard = this.aiCard.children[0];
     // this.currentAICard.active = false;
     // this.currentAICard.x = 206;
     // this.currentAICard.y = 142;
   },
-
+  
+  // type == 1 出场， 2 胜利， 3失败 
+  playMonsterText (data,type) {
+    this._monsterText = data["text" + type];
+  },
 
   onPlayerChooseCard(data, node) {
     this._curCardNum += 1;
@@ -110,7 +115,6 @@ cc.Class({
     });
   },
 
-  // type == 1, 下一关， 
   resetCard() {
     this._curCardNum = 0;
     this.currentPlayerCardArr.forEach(element => {
@@ -137,6 +141,7 @@ cc.Class({
     }
 
   },
+
   judgeWinOrFail() {
     //  this.scheduleOnce(() => {
     let booleValue = this.combatJudge.checkWhoWin(this.AI, this.playerCurCard);
@@ -148,6 +153,7 @@ cc.Class({
     // }, 1);
     console.log("巅峰对决：", this.AI, this.playerCurCard);
   },
+
   onPlayerCardWin() {
     this.resetCard();
     this.scheduleOnce(() => {
@@ -166,6 +172,8 @@ cc.Class({
     this.onAIRandomCard();
     console.log("下一个回合:", this.player);
   },
+
+
 
   onNextTurning() {
     this.resetCard();
@@ -188,9 +196,7 @@ cc.Class({
       this._controller.init();
       this._controller.page.onOpenPage(2);
     };
-    cc.log(this.endContent);
     this._controller.dialog.init(this.node, this.endContent, func);
-    cc.log('游戏结束了');
     this.recoveryCenterCards();
   },
 

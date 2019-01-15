@@ -22,6 +22,7 @@ cc.Class({
     this.referee.init(this.game);
     this.page.init(this);
     this.game.init(this);
+    this.AI.init(this.data.monster,this.game);
   },
 
   start() {
