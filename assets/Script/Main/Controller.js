@@ -22,10 +22,6 @@ cc.Class({
     this.referee.init(this.game);
     this.page.init(this);
     this.game.init(this);
-    
-   // this.dialog.init(this.game);
-
-   // this.pages.init()
   },
 
   start() {

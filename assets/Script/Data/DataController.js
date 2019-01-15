@@ -34,38 +34,25 @@ cc.Class({
   //新建游戏时调用
   initPlayerData() {
     this.player = {
-        level: 1,
-        cards: [],
-        item: [],
-        progress: 0,
-        blood: 1,
-        status: [],
-        equipment: [],
-      },
-
-      this.card = [{
-        name: 'punch',
-        content: 'give a punch !',
-        cardAtt: 0,
-        cardValue: 1,
-        cardIcon: 'fight'
-      }, {
-        name: 'run',
-        content: 'give a run !',
-        cardAtt: 1,
-        cardValue: 1,
-        cardIcon: 'speed'
-      }, {
-        name: 'skill',
-        content: 'give a skill !',
-        cardAtt: 2,
-        cardValue: 1,
-        cardIcon: 'skill'
-      }];
-    this.card.forEach(element => {
-      this.player.cards.push(element);
-    });
-
+      level: 1,
+      cards: [],
+      item: [],
+      progress: 0,
+      blood: 1,
+      status: [],
+      equipment: [],
+    }
+    this.card = [{
+      cardAtt: 0,
+      cardValue: 1,
+    }, {
+      cardAtt: 1,
+      cardValue: 1,
+    }, {
+      cardAtt: 2,
+      cardValue: 1,
+    }];
+    this.player.cards = this.card
   },
   /**
    * 根据当前关卡初始化怪物数据,每次进入新关卡时调用
@@ -78,7 +65,7 @@ cc.Class({
     console.log("monster", battle, this.monster)
   },
   // -------------------- 玩家数据操作-----------------
-   /**
+  /**
    * 玩家通过关卡升级操作
    * @author kunji
    */
@@ -96,11 +83,13 @@ cc.Class({
       return
     } else {
       this.player = data.player
+      this.card = data.card
       this.level = data.level
       this.initLevelData(this.level)
     }
   },
   saveData() {
+    this.player.cards = this.card
     cc.sys.localStorage.setItem('userData', JSON.stringify({
       player: this.player,
       level: this.level
