@@ -3882,10 +3882,28 @@
     "_enabled": true,
     "isFristTime": true,
     "levelData": {
-      "__uuid__": "1d2ae2da-bc0b-4ff8-a65f-12cf2e5a5dce"
+      "__uuid__": "c23b1063-9b77-438b-99c9-eccba9692ea6"
     },
     "kongfuData": {
-      "__uuid__": "117a9408-c439-4399-a1de-d16393e17498"
+      "__uuid__": "48835856-f7f4-43d7-b1fe-8b2f0c8721f2"
+    },
+    "elementData": {
+      "__uuid__": "f85563cb-e817-4cb5-9675-a8e110e7828a"
+    },
+    "itemData": {
+      "__uuid__": "d351f648-984a-4dd8-90c7-368b7951a402"
+    },
+    "monsterData": {
+      "__uuid__": "cbaf5478-6796-4413-9459-f472e395ffd4"
+    },
+    "cardData": {
+      "__uuid__": "2cd386eb-1c64-4bd5-8ed0-efc39b496112"
+    },
+    "skillData": {
+      "__uuid__": "1258c58c-f8ca-49c0-8b9e-3aecb3129c08"
+    },
+    "status": {
+      "__uuid__": "b3e4841c-76aa-43ba-a2cd-6099604dc598"
     }
   },
   {

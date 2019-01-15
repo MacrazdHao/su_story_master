@@ -12,6 +12,12 @@ cc.Class({
     isFristTime: true,
     levelData: cc.JsonAsset, //关卡数据
     kongfuData: cc.JsonAsset, //玩家出招表kongfu.json
+    elementData: cc.JsonAsset, //元素表
+    itemData: cc.JsonAsset, //道具表
+    monsterData: cc.JsonAsset, //怪物表
+    cardData: cc.JsonAsset, //卡牌预设表
+    skillData: cc.JsonAsset, //怪物技能表
+    status: cc.JsonAsset, //状态表
   },
   // -------------------- 全局数据管理-----------------
   start() {
@@ -60,9 +66,12 @@ cc.Class({
    */
   initLevelData(level) {
     // todo 拿取json数据并且获取 使用完之后销毁数据
-    var battle = this.levelData.json
-    this.monster = battle[level];
-    console.log("monster", battle, this.monster)
+    this.level = this.levelData.json[level]
+    // 拿到当前的怪物id
+    this.level.monster = this.level.monsterId.split(",")[Math.floor(Math.random() * 2)]
+    // 拿到当前的怪物数据
+    this.monster = this.monsterData.json[this.level.monster]
+    console.log("初始化战斗数据", this.level, this.monster)
   },
   // -------------------- 玩家数据操作-----------------
   /**

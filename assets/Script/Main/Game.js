@@ -8,12 +8,12 @@ cc.Class({
   properties: {
     status: 0,
     cardsContainer: cc.Node,
-    selectCardContainer:cc.Node,
+    selectCardContainer: cc.Node,
     cardPrefab: cc.Prefab,
-    currentPlayerCard: [],//选中的卡牌
-    _curCardIndex: -1,//当前卡牌索引
-    _curCardNum:0,
-    aiCard:cc.Node,
+    currentPlayerCard: [], //选中的卡牌
+    _curCardIndex: -1, //当前卡牌索引
+    _curCardNum: 0,
+    aiCard: cc.Node,
     // 战斗状态
     // 0:未知状态/未初始化状态/不可操作状态
     // 1:只有在1下才是可自由操作卡牌状态
@@ -24,15 +24,15 @@ cc.Class({
     this.createPools();
   },
   lateInit() {
-    
+
   },
-  start () {
+  start() {
     this.endContent = {
-      title:"游戏结束了！",
+      title: "游戏结束了！",
       content: "you failed! QAQ",
     }
   },
-  initUI () {
+  initUI() {
     console.log("初始化UI");
     this.status = 1;
     this._dataMgr = this._controller.data;
@@ -56,25 +56,25 @@ cc.Class({
   },
 
   instantiateCard(self, data, parent) {
-      let card = null
-      if (self.cardsPool && self.cardsPool.size() > 0) {
-        card = self.cardsPool.get()
-      } else {
-        card = cc.instantiate(self.cardPrefab)
-      }
-      card.parent = parent
-      card.scale = 1
-      card.x = 0
-      card.y = 0
-      card.getComponent('Card').init(self, data)
+    let card = null
+    if (self.cardsPool && self.cardsPool.size() > 0) {
+      card = self.cardsPool.get()
+    } else {
+      card = cc.instantiate(self.cardPrefab)
+    }
+    card.parent = parent
+    card.scale = 1
+    card.x = 0
+    card.y = 0
+    card.getComponent('Card').init(self, data)
   },
 
-  onPlayerLoadCard () {
+  onPlayerLoadCard() {
     this.recoveryUICards();
     this.currentPlayerCardArr = [];
     let cardArr = this.player.cards;
     cardArr.forEach(element => {
-      this.instantiateCard(this,element,this.cardsContainer);
+      this.instantiateCard(this, element, this.cardsContainer);
     });
   },
 
@@ -89,45 +89,43 @@ cc.Class({
   },
 
   //还需加入对话
-  onAIRandomCard () {
-    console.log(this.monster,"怪物随机数组");
-    let randomNum = Math.floor(Math.random() * 5);
-    let monsterNum = Math.floor(Math.random() * 2);
-    this.AI = this.monster[randomNum].monster[monsterNum];
-   // this.instantiateCard(this,monsterCard,this.aiCard);
+  onAIRandomCard() {
+    console.log(this.monster, "怪物随机数组");
+    // this.AI = this.monster[randomNum].monster[monsterNum];
+    // this.instantiateCard(this,monsterCard,this.aiCard);
     // this.currentAICard = this.aiCard.children[0];
     // this.currentAICard.active = false;
     // this.currentAICard.x = 206;
     // this.currentAICard.y = 142;
   },
-  
 
-  onPlayerChooseCard (data,node) {
+
+  onPlayerChooseCard(data, node) {
     this._curCardNum += 1;
     this.playerCurCard = data;
     this.currentPlayerCard = node;
     this.currentPlayerCardArr.push(node);
     this.currentPlayerCardArr.forEach(element => {
-      element.parent = this.selectCardContainer; 
+      element.parent = this.selectCardContainer;
     });
   },
 
   // type == 1, 下一关， 
-  resetCard () {
+  resetCard() {
     this._curCardNum = 0;
     this.currentPlayerCardArr.forEach(element => {
-      element.parent =  this.cardsContainer; 
+      element.parent = this.cardsContainer;
     });
     this.currentPlayerCardArr = [];
   },
 
   onCardOut() {
-   if (!this._curCardNum) {
-     cc.log("请选择一张卡牌");
-     return;
-   }
- //  this.currentAICard.active = true;
-   this.judgeWinOrFail();
+    if (!this._curCardNum) {
+      cc.log("请选择一张卡牌");
+      return;
+    }
+    //  this.currentAICard.active = true;
+    this.judgeWinOrFail();
     // 在数据种去除该卡牌
     let cardArr = this.player.cards;
     for (let i = 0; i < cardArr.length; i++) {
@@ -137,18 +135,18 @@ cc.Class({
         return
       }
     }
-    
+
   },
-  judgeWinOrFail () {
-  //  this.scheduleOnce(() => {
-    let booleValue = this.combatJudge.checkWhoWin(this.AI,this.playerCurCard);
-      if (booleValue) {
-        this.onPlayerCardWin()
-      } else {
-        this.onAICardWin()
-      }
+  judgeWinOrFail() {
+    //  this.scheduleOnce(() => {
+    let booleValue = this.combatJudge.checkWhoWin(this.AI, this.playerCurCard);
+    if (booleValue) {
+      this.onPlayerCardWin()
+    } else {
+      this.onAICardWin()
+    }
     // }, 1);
-    console.log("巅峰对决：",this.AI,this.playerCurCard);
+    console.log("巅峰对决：", this.AI, this.playerCurCard);
   },
   onPlayerCardWin() {
     this.resetCard();
@@ -162,14 +160,14 @@ cc.Class({
     }, 1)
   },
   //升级 level + 1 blood + 1
-  nextFight () {
+  nextFight() {
     this._dataMgr.upgradePlayerLevel();
     this.resetCard();
     this.onAIRandomCard();
-    console.log("下一个回合:",this.player);
+    console.log("下一个回合:", this.player);
   },
 
-  onNextTurning () {
+  onNextTurning() {
     this.resetCard();
     this.onAIRandomCard();
   },
@@ -184,12 +182,12 @@ cc.Class({
       }
     }, 1)
   },
-  
+
   onGameOver() {
     let func = () => {
       this._controller.init();
       this._controller.page.onOpenPage(2);
-    }; 
+    };
     cc.log(this.endContent);
     this._controller.dialog.init(this.node, this.endContent, func);
     cc.log('游戏结束了');
@@ -204,5 +202,5 @@ cc.Class({
       this.cardsPool.put(this.currentAICard)
     }
   },
-  
+
 });
