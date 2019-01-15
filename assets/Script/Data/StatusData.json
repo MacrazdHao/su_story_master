@@ -1,5 +1,12 @@
 [
   {
+    "id": "状态编号",
+    "status": "状态名称",
+    "immuneStatus": "状态免疫状态",
+    "description": "描述",
+    "time": "持续时间"
+  },
+  {
     "id": 1,
     "status": "龙",
     "immuneStatus": "燃烧、潮湿、中毒、感电、冰冻、眩晕",

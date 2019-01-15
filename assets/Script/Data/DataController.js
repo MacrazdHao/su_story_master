@@ -19,7 +19,7 @@ cc.Class({
     this._dialog = this._controller.dialog;
   },
   init() {
-   // cc.sys.localStorage.removeItem('userData')
+    // cc.sys.localStorage.removeItem('userData')
     if (this.checkIsFristTimePlay()) {
       this.initPlayerData()
       this.initLevelData(1)
@@ -34,38 +34,38 @@ cc.Class({
   //新建游戏时调用
   initPlayerData() {
     this.player = {
-      level: 1,
-      cards: [],
-      item: [],
-      progress: 0,
-      blood: 1,
-      status: [],
-      equipment: [],
-    },
-  
-   this.card = [{
+        level: 1,
+        cards: [],
+        item: [],
+        progress: 0,
+        blood: 1,
+        status: [],
+        equipment: [],
+      },
+
+      this.card = [{
         name: 'punch',
         content: 'give a punch !',
         cardAtt: 0,
         cardValue: 1,
-        cardIcon:'fight'
-    }, {
+        cardIcon: 'fight'
+      }, {
         name: 'run',
         content: 'give a run !',
         cardAtt: 1,
         cardValue: 1,
-        cardIcon:'speed'
-    }, {
+        cardIcon: 'speed'
+      }, {
         name: 'skill',
         content: 'give a skill !',
         cardAtt: 2,
         cardValue: 1,
-        cardIcon:'skill'
-    }];
+        cardIcon: 'skill'
+      }];
     this.card.forEach(element => {
       this.player.cards.push(element);
     });
-      
+
   },
   /**
    * 根据当前关卡初始化怪物数据,每次进入新关卡时调用
@@ -75,9 +75,18 @@ cc.Class({
     // todo 拿取json数据并且获取 使用完之后销毁数据
     var battle = this.levelData.json
     this.monster = battle[level];
-    console.log("monster", battle,this.monster)
+    console.log("monster", battle, this.monster)
   },
-
+  // -------------------- 玩家数据操作-----------------
+   /**
+   * 玩家通过关卡升级操作
+   * @author kunji
+   */
+  upgradePlayerLevel() {
+    this.player.blood += 1;
+    this.player.level += 1;
+    this.saveData();
+  },
   // -------------------- 存档原始与微信API -----------------------
   loadData() {
     let data = JSON.parse(cc.sys.localStorage.getItem('userData'));
@@ -107,13 +116,8 @@ cc.Class({
     }
   },
 
-  //下一回合，升级
-  upgradePlayerLevel () {
-    this.player.blood += 1;
-    this.player.level += 1;
-    this.saveData();
-  },
-  
+
+
   // loadDataWX() {
 
   // },
