@@ -871,30 +871,30 @@
       "__id__": 20
     },
     "_enabled": true,
-    "isFristTime": true,
+    "isFristTime": false,
     "levelData": {
-      "__uuid__": "c23b1063-9b77-438b-99c9-eccba9692ea6"
+      "__uuid__": "1d2ae2da-bc0b-4ff8-a65f-12cf2e5a5dce"
     },
     "kongfuData": {
-      "__uuid__": "48835856-f7f4-43d7-b1fe-8b2f0c8721f2"
+      "__uuid__": "117a9408-c439-4399-a1de-d16393e17498"
     },
     "elementData": {
-      "__uuid__": "f85563cb-e817-4cb5-9675-a8e110e7828a"
+      "__uuid__": "4820d6cd-c37f-4468-b647-b199e3ed72f2"
     },
     "itemData": {
-      "__uuid__": "d351f648-984a-4dd8-90c7-368b7951a402"
+      "__uuid__": "90bb2a2d-949b-4729-9f7d-43119523bca8"
     },
     "monsterData": {
-      "__uuid__": "cbaf5478-6796-4413-9459-f472e395ffd4"
+      "__uuid__": "10abed8c-a0d6-4b80-9279-e988c1848cb6"
     },
     "cardData": {
-      "__uuid__": "2cd386eb-1c64-4bd5-8ed0-efc39b496112"
+      "__uuid__": "58c8e5c5-aafd-49bd-8cb8-8bebd01481e2"
     },
     "skillData": {
-      "__uuid__": "1258c58c-f8ca-49c0-8b9e-3aecb3129c08"
+      "__uuid__": "8482d67f-e587-4a9b-92fa-4418f3c71fb8"
     },
     "status": {
-      "__uuid__": "b3e4841c-76aa-43ba-a2cd-6099604dc598"
+      "__uuid__": "60948dd2-7830-4973-b534-fa15c659c7a1"
     }
   },
   {
@@ -2763,14 +2763,26 @@
     "_startBlood": 0
   },
   {
-    "__type__": "7f837YSxT1LQrqYDxyitCqQ",
+    "__type__": "dragonBones.ArmatureDisplay",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 69
     },
     "_enabled": true,
-    "_startBlood": 0
+    "_armatureName": "Armature",
+    "_animationName": "",
+    "playTimes": -1,
+    "_N$dragonAsset": {
+      "__uuid__": "2aae1ba6-0ad9-494e-a2c6-b126da7824ab"
+    },
+    "_N$dragonAtlasAsset": {
+      "__uuid__": "d83f08b7-ad85-40d9-99ab-979d7ac35bca"
+    },
+    "_N$_defaultArmatureIndex": 0,
+    "_N$_animationIndex": 0,
+    "_N$timeScale": 1,
+    "_N$debugBones": false
   },
   {
     "__type__": "cc.Node",

@@ -21,7 +21,7 @@
     "_active": true,
     "_components": [],
     "_prefab": null,
-    "_id": "c9f4941b-3119-4f4a-967b-72be8a80929a",
+    "_id": "d95464c0-24a2-4925-8902-5615e3f4a34f",
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
@@ -57,13 +57,16 @@
     "_children": [
       {
         "__id__": 3
+      },
+      {
+        "__id__": 5
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 5
+        "__id__": 6
       }
     ],
     "_prefab": null,
@@ -164,18 +167,66 @@
     },
     "_enabled": true,
     "_armatureName": "Armature",
-    "_animationName": "start",
+    "_animationName": "stay",
     "playTimes": -1,
     "_N$dragonAsset": {
-      "__uuid__": "5c04991d-f0bd-478f-aa08-3084f82aeaf4"
+      "__uuid__": "2aae1ba6-0ad9-494e-a2c6-b126da7824ab"
     },
     "_N$dragonAtlasAsset": {
-      "__uuid__": "fb5a9580-2174-454d-a734-b9b0a18b0e92"
+      "__uuid__": "d83f08b7-ad85-40d9-99ab-979d7ac35bca"
     },
     "_N$_defaultArmatureIndex": 0,
-    "_N$_animationIndex": 1,
+    "_N$_animationIndex": 3,
     "_N$timeScale": 1,
     "_N$debugBones": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "New Node",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_tag": -1,
+    "_active": true,
+    "_components": [],
+    "_prefab": null,
+    "_id": "c0hRdstc5Me4Un+721dY7f",
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_cascadeOpacityEnabled": true,
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_rotationX": 0,
+    "_rotationY": 0,
+    "_scaleX": 1,
+    "_scaleY": 1,
+    "_position": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_localZOrder": 0,
+    "_globalZOrder": 0,
+    "_opacityModifyRGB": false,
+    "groupIndex": 0
   },
   {
     "__type__": "cc.Canvas",

@@ -20,7 +20,7 @@ cc.Class({
     // 2:裁判判断阶段/动画阶段/不可操作状态
   },
   start() {
-    this.createPools();
+  //  this.createPools();
   },
   init(c, player, level) {
     this._controller = c;
@@ -43,14 +43,14 @@ cc.Class({
     this.onAIRandomCard();
   },
 
-  createPools() {
-    this.cardsPool = new cc.NodePool()
-    let initCount = 10
-    for (let i = 0; i < initCount; i++) {
-      let card = cc.instantiate(this.cardPrefab)
-      this.cardsPool.put(card)
-    }
-  },
+  // createPools() {
+  //   this.cardsPool = new cc.NodePool()
+  //   let initCount = 10
+  //   for (let i = 0; i < initCount; i++) {
+  //     let card = cc.instantiate(this.cardPrefab)
+  //     this.cardsPool.put(card)
+  //   }
+  // },
 
   instantiateCard(self, data, parent) {
     let card = null

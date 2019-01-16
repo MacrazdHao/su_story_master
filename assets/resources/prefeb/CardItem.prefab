@@ -36,7 +36,7 @@
         "__id__": 12
       },
       {
-        "__id__": 14
+        "__id__": 13
       }
     ],
     "_prefab": {
@@ -314,9 +314,7 @@
       "__id__": 8
     },
     "_enabled": true,
-    "_spriteFrame": {
-      "__uuid__": "4bcc99d4-d324-4822-a0af-f6cb721a09df"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 0,
     "_fillType": 0,
@@ -351,9 +349,7 @@
       "__id__": 1
     },
     "_enabled": true,
-    "_spriteFrame": {
-      "__uuid__": "3afc39a1-c1f6-4234-b9b9-e36f887ca98e"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 0,
     "_fillType": 0,
@@ -368,6 +364,30 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_atlas": null
+  },
+  {
+    "__type__": "36c6dGNwMRM9q/MwUO0P1ZQ",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "sprite": {
+      "__id__": 9
+    },
+    "valueLabel": {
+      "__id__": 3
+    },
+    "cardTitleLabel": {
+      "__id__": 6
+    },
+    "contentLabel": null,
+    "cardIconAtlas": {
+      "__uuid__": "e3dac095-3d7f-4fb7-af6d-7763eb36dcd5"
+    },
+    "_index": 0,
+    "data": []
   },
   {
     "__type__": "cc.Button",
@@ -396,7 +416,7 @@
     "zoomScale": 1.2,
     "clickEvents": [
       {
-        "__id__": 13
+        "__id__": 14
       }
     ],
     "_N$interactable": true,
@@ -433,30 +453,6 @@
     "component": "Card",
     "handler": "chooseCard",
     "customEventData": ""
-  },
-  {
-    "__type__": "36c6dGNwMRM9q/MwUO0P1ZQ",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "sprite": {
-      "__id__": 9
-    },
-    "valueLabel": {
-      "__id__": 3
-    },
-    "cardTitleLabel": {
-      "__id__": 6
-    },
-    "contentLabel": null,
-    "cardIconAtlas": {
-      "__uuid__": "e3dac095-3d7f-4fb7-af6d-7763eb36dcd5"
-    },
-    "_index": 0,
-    "data": []
   },
   {
     "__type__": "cc.PrefabInfo",

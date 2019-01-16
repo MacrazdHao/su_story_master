@@ -57,6 +57,7 @@ cc.Class({
    * @param {string} level - 关卡数
    */
   initLevelData(level) {
+    cc.log(this._controller,"this._cont");
     // todo 拿取json数据并且获取 使用完之后销毁数据
     this.level = this.levelData.json[level]
     // 拿到当前的怪物数据

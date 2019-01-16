@@ -7,6 +7,7 @@ cc.Class({
   extends: cc.Component,
   properties: {
     _startBlood: 0,
+
   },
   start() {
 
@@ -18,6 +19,7 @@ cc.Class({
   },
   lateInit() {
     this._startBlood = this.data.blood;
+    this.monsterAnim = this.node.getComponent(cc.DragonBones);
   },
   runSkill(data) {
     let blood = data.blood;
@@ -33,6 +35,13 @@ cc.Class({
   },
 
   runStatus(type) {
+
+  },
+  // 1 2 3 start win fail
+  onAIAnim (type) {
+   let anim = this.node.addComponent('dragonBones');
+   anim.dragonAltas = '';
+   anim.dragonAsset = '';
 
   },
 });
