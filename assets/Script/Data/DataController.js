@@ -20,18 +20,10 @@ cc.Class({
     status: cc.JsonAsset, //状态表
   },
   // -------------------- 全局数据管理-----------------
-  start() {
-    this._controller = cc.director.getScene().getChildByName('Canvas').getChildByName('Controller').getComponent('Controller')
-    this._dialog = this._controller.dialog;
-  },
-  init() {
+  init(c) {
     // cc.sys.localStorage.removeItem('userData')
-    if (this.checkIsFristTimePlay()) {
-      this.initPlayerData()
-      this.initLevelData(1)
-    } else {
-      this.loadData()
-    }
+    this._controller = c
+    this._dialog = c.dialog
     this.lateInit()
   },
   lateInit() {
@@ -41,24 +33,23 @@ cc.Class({
   initPlayerData() {
     this.player = {
       level: 1,
-      cards: [],
+      cards: [{
+        cardAtt: 0,
+        cardValue: 1,
+      }, {
+        cardAtt: 1,
+        cardValue: 1,
+      }, {
+        cardAtt: 2,
+        cardValue: 1,
+      }],
       item: [],
       progress: 0,
       blood: 1,
       status: [],
       equipment: [],
     }
-    this.card = [{
-      cardAtt: 0,
-      cardValue: 1,
-    }, {
-      cardAtt: 1,
-      cardValue: 1,
-    }, {
-      cardAtt: 2,
-      cardValue: 1,
-    }];
-    this.player.cards = this.card
+    return this.player
   },
   /**
    * 根据当前关卡初始化怪物数据,每次进入新关卡时调用
@@ -67,11 +58,11 @@ cc.Class({
   initLevelData(level) {
     // todo 拿取json数据并且获取 使用完之后销毁数据
     this.level = this.levelData.json[level]
-    // 拿到当前的怪物id
-    this.level.monster = this.level.monsterId.split(",")[Math.floor(Math.random() * 2)]
     // 拿到当前的怪物数据
-    this.monster = this.monsterData.json[this.level.monster]
-    console.log("初始化战斗数据", this.level, this.monster)
+    this.level.monster = this.monsterData.json[this.level.monsterId.split(",")[Math.floor(Math.random() * 2)]]
+    this._controller.AI.init(this.level.monster, this._controller.game);
+    console.log("初始化战斗数据", this.level, this.level.monster)
+    return this.level
   },
   // -------------------- 玩家数据操作-----------------
   /**
@@ -83,22 +74,29 @@ cc.Class({
     this.player.level += 1;
     this.saveData();
   },
+  /**
+   * 绑定数据到game
+   * @author uu
+   */
+  freshenData() {
+
+  },
+  /**
+   * 获取game的数据 记入本地储存
+   * @author uu
+   */
+  updataData() {
+
+  },
   // -------------------- 存档原始与微信API -----------------------
   loadData() {
     let data = JSON.parse(cc.sys.localStorage.getItem('userData'));
-    if (!data) {
-      this.initPlayerData()
-      this.initLevelData(1)
-      return
-    } else {
-      this.player = data.player
-      this.card = data.card
-      this.level = data.level
-      this.initLevelData(this.level)
-    }
+    this.player = data.player
+    this.level = data.level
+    this.initLevelData(this.level.id)
+    return data
   },
   saveData() {
-    this.player.cards = this.card
     cc.sys.localStorage.setItem('userData', JSON.stringify({
       player: this.player,
       level: this.level

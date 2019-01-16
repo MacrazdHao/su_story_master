@@ -20,12 +20,12 @@ cc.Class({
    * 使用弹框时调用该函数
    * @param {object} data - 数据对象 里面需要有.title和.content字段 点击取消按钮的回调和点击确定的回调
    */
-  showDialog({
+  showDialog(
     title,
     content,
-    cancelFunc,
-    confirmFunc
-  }) {
+    confirmFunc,
+    cancelFunc
+  ) {
     this.confirmFunc = confirmFunc || (() => console.log('传入的确定回调为空'))
     this.cancelFunc = cancelFunc || (() => console.log('传入的取消回调为空'))
     this.title.string = title || ''

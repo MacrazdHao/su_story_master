@@ -50,10 +50,6 @@ cc.Class({
     this.onOpenPage(cust);
   },
 
-  startGame () {
-    this._controller.game.initUI();
-  },
- 
   closeAllPages() {
     this.pages.forEach(element => {
       element.active = false

@@ -19,31 +19,28 @@ cc.Class({
     // 1:只有在1下才是可自由操作卡牌状态
     // 2:裁判判断阶段/动画阶段/不可操作状态
   },
-  init(c) {
-    this._controller = c;
+  start() {
     this.createPools();
   },
-  lateInit() {
-
+  init(c, player, level) {
+    this._controller = c;
+    this._dataMgr = c.data;
+    this.combatJudge = c.referee;
+    this.dialog = c.dialog;
+    this.page = c.page
+    this._aiMgr = c.AI
+    this.player = player
+    this.level = level
+    this.lateInit()
   },
-  start() {
-    this.endContent = {
-      title: "游戏结束了！",
-      content: "you failed! QAQ",
-    }
+  lateInit() {
+    this.initUI()
+    this.combatJudge.init(this);
   },
   initUI() {
     this.status = 1;
-    this._dataMgr = this._controller.data;
-    this.player = this._dataMgr.player;
-    this.monster = this._dataMgr.monster;
-    this.combatJudge = this._controller.referee;
-    this.dialog = this._controller.dialog;
-    this.page = this._controller.page;
-    this._aiMgr = this.node.getChildByName('AI').getComponent('AI'); 
     this.onPlayerLoadCard();
     this.onAIRandomCard();
-
   },
 
   createPools() {
@@ -70,7 +67,7 @@ cc.Class({
   },
 
   onPlayerLoadCard() {
-    console.log("初始化玩家手里的卡牌",this.player.cards);
+    console.log("初始化玩家手里的卡牌", this.player.cards);
     this.recoveryUICards();
     this.currentPlayerCardArr = [];
     let cardArr = this.player.cards;
@@ -92,16 +89,15 @@ cc.Class({
   //还需加入对话
   onAIRandomCard() {
     let randomNum = Math.floor(Math.random() * 4)
-    this._dataMgr.initLevelData(randomNum);
-    console.log(this.monster, "随机到的怪物");
+    console.log(this.level.monster, "随机到的怪物");
     // this.currentAICard = this.aiCard.children[0];
     // this.currentAICard.active = false;
     // this.currentAICard.x = 206;
     // this.currentAICard.y = 142;
   },
-  
+
   // type == 1 出场， 2 胜利， 3失败 
-  playMonsterText (data,type) {
+  playMonsterText(data, type) {
     this._monsterText = data["text" + type];
   },
 
@@ -196,7 +192,12 @@ cc.Class({
       this._controller.init();
       this._controller.page.onOpenPage(2);
     };
-    this._controller.dialog.init(this.node, this.endContent, func);
+    this._controller.dialog.init(
+      "游戏结束了！",
+      "you failed! QAQ",
+      func,
+      null
+    );
     this.recoveryCenterCards();
   },
 

@@ -16,15 +16,10 @@ cc.Class({
     AI: require('AI'),
     isWeChat: false,
   },
-  init(){
-    this.data.init();
-   // this.action.init(this.game);
-    this.referee.init(this.game);
+  init() {
+    this.data.init(this);
     this.page.init(this);
-    this.game.init(this);
-    this.AI.init(this.data.monster,this.game);
   },
-
   start() {
     if (this.isWeChat) {
       this.rank.init(this)
@@ -32,7 +27,7 @@ cc.Class({
     this.init();
   },
   // ------------ 按钮绑定 --------------
-  onStartButton(){
-    this.game.init(this)
+  onStartButton() {
+    this.game.init(this, this.data.initPlayerData(), this.data.initLevelData(1))
   }
 });
