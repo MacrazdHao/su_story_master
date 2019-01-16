@@ -70,8 +70,7 @@ cc.Class({
     console.log("初始化玩家手里的卡牌", this.player.cards);
     this.recoveryUICards();
     this.currentPlayerCardArr = [];
-    let cardArr = this.player.cards;
-    cardArr.forEach(element => {
+    this.player.cards.forEach(element => {
       this.instantiateCard(this, element, this.cardsContainer);
     });
   },

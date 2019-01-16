@@ -2,7 +2,7 @@
  * @author uu
  * @file  处理缓存和全局数据
  * @todo 
- * @description 在这里获得所有数据
+ * @description 在这里获得所有数据 为了避免异步问题 尽量使用return获取数据
  * @progress 初始化=>判断是否有存档=>有则显示两个按钮（载入和重新开始），没有则显示开始按钮
  */
 cc.Class({
@@ -61,6 +61,7 @@ cc.Class({
     this.level = this.levelData.json[level]
     // 拿到当前的怪物数据
     this.level.monster = this.monsterData.json[this.level.monsterId.split(",")[Math.floor(Math.random() * 2)]]
+    // 初始化AI
     this._controller.AI.init(this.level.monster, this._controller.game);
     console.log("初始化战斗数据", this.level, this.level.monster)
     return this.level
