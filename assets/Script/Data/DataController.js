@@ -23,6 +23,7 @@ cc.Class({
   init(c) {
     // cc.sys.localStorage.removeItem('userData')
     this._controller = c
+    this._game = c.game
     this._dialog = c.dialog
     this.lateInit()
   },
@@ -79,14 +80,15 @@ cc.Class({
    * @author uu
    */
   freshenData() {
-
+    this._game.player = this.player
+    this._game.level = this.level
   },
   /**
    * 获取game的数据 记入本地储存
    * @author uu
    */
   updataData() {
-
+    this.player = this._game.player
   },
   // -------------------- 存档原始与微信API -----------------------
   loadData() {
