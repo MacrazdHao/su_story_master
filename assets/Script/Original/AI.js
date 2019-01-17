@@ -7,7 +7,7 @@ cc.Class({
   extends: cc.Component,
   properties: {
     _startBlood: 0,
-
+    opacity:255,
   },
   start() {
 
@@ -19,7 +19,8 @@ cc.Class({
   },
   lateInit() {
     this._startBlood = this.data.blood;
-    this.monsterAnim = this.node.getComponent(cc.DragonBones);
+    this.monsterText = this.node.getChildByName('AIText');
+    this.monsterAnim = this.node.getChildByName('AIAnim').getComponent(dragonBones.ArmatureDisplay);
   },
   runSkill(data) {
     let blood = data.blood;
@@ -39,9 +40,23 @@ cc.Class({
   },
   // 1 2 3 start win fail
   onAIAnim (type) {
-   let anim = this.node.addComponent('dragonBones');
-   anim.dragonAltas = '';
-   anim.dragonAsset = '';
+    if (type == 1)
+    this.monsterAnim.playAnimation('start',1);
+    else if (type == 2) 
+    this.monsterAnim.playAnimation('fail',1);
+    else if (type == 3) 
+    this.monsterAnim.playAnimation('stay',1);
+  },
 
+  onAIText (type) {
+    this.monsterText.getComponent(cc.Label).string = this.data["text" + type];
+    let show = cc.fadeIn(1.0);
+    this.monsterText.runAction(show);
+    this.scheduleOnce(() => {
+      let hide = cc.fadeOut(0);
+      let dealyTime = cc.delayTime(2);
+      let seq = cc.sequence(dealyTime,hide);
+      this.monsterText.runAction(seq);
+    },1)
   },
 });

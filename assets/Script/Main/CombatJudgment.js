@@ -20,6 +20,7 @@ cc.Class({
    * @todo 
    */
   checkWhoWin(cardData, AIData) {
+    console.log("玩家卡牌：",cardData,"AI卡牌",AIData);
     // 比较哪张卡牌厉害
     // 第一轮判断 比较卡牌数值 如果一方的数值比另一方数值大3 则胜出 否则进行二轮比较
     if (cardData.cardValue + 3 <= AIData.cardValue) {
