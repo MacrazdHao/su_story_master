@@ -1,7 +1,7 @@
 /**
  * @author uu
  * @file  处理和判断谁的卡牌获胜和返回伤害
- * @todo 
+ * @todo  招式合成//判断输赢//计算伤害
  */
 cc.Class({
   extends: cc.Component,
@@ -13,15 +13,25 @@ cc.Class({
 
   },
   // ------------------- 判断阶段 --------------------
-    /**
+  /**
    * 判断谁获胜 并且计算伤害
    * @param {object} cardData 玩家融合之后的卡牌
    * @param {object} AIData 怪物使用的技能
-   * @todo 
+   * @return 返回一个{object} 
+   * {
+   *  isWin:ture//or false
+   *  damage:1,//伤害
+   *  statusId:1,//造成的状态ID
+   * }
    */
   checkWhoWin(cardData, AIData) {
-    console.log("玩家卡牌：",cardData,"AI卡牌",AIData);
+    console.log("玩家卡牌：", cardData, "AI卡牌", AIData);
     // 比较哪张卡牌厉害
+    return {
+      isWin: true,
+      damage: 1,
+      statusID: 0
+    }
     // 第一轮判断 比较卡牌数值 如果一方的数值比另一方数值大3 则胜出 否则进行二轮比较
     if (cardData.cardValue + 3 <= AIData.cardValue) {
       return false
@@ -41,7 +51,6 @@ cc.Class({
         return false
       }
     }
-
   },
   showResult() {
 

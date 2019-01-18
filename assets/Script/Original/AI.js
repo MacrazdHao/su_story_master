@@ -28,7 +28,7 @@ cc.Class({
 
     } else if (blood > (this._startBlood) * 0.5) { //skill3
 
-    } else if (blood < (this._startBlood) * 0.5 && blood > (this._startBlood) * 0.2) { //skill2
+    } else if (blood < (this._startBlood) * 0.5 && blood > (this._startBlood) * 0.25) { //skill2
 
     } else if (blood < (this._startBlood) * 0.25) { //skill1
 
