@@ -10,14 +10,14 @@ cc.Class({
 
   properties: {
     isFristTime: true,
-    levelData: cc.JsonAsset, //关卡数据
-    kongfuData: cc.JsonAsset, //玩家出招表kongfu.json
-    elementData: cc.JsonAsset, //元素表
-    itemData: cc.JsonAsset, //道具表
-    monsterData: cc.JsonAsset, //怪物表
-    cardData: cc.JsonAsset, //卡牌预设表
-    skillData: cc.JsonAsset, //怪物技能表
-    status: cc.JsonAsset, //状态表
+    // levelData: cc.JsonAsset, //关卡数据
+    // kongfuData: cc.JsonAsset, //玩家出招表kongfu.json
+    // elementData: cc.JsonAsset, //元素表
+    // itemData: cc.JsonAsset, //道具表
+    // monsterData: cc.JsonAsset, //怪物表
+    // cardData: cc.JsonAsset, //卡牌预设表
+    // skillData: cc.JsonAsset, //怪物技能表
+    // status: cc.JsonAsset, //状态表
   },
   // -------------------- 全局数据管理-----------------
   init(c) {
@@ -28,7 +28,12 @@ cc.Class({
     this.lateInit()
   },
   lateInit() {
-
+    cc.loader.loadRes('Data/LevelData', function (err, jsonAsset) {
+      this.levelData = jsonAsset.json
+    });
+    cc.loader.loadRes('Data/MonsterData', function (err, jsonAsset) {
+      this.monsterData = jsonAsset.json
+    });
   },
   //新建游戏时调用
   initPlayerData() {

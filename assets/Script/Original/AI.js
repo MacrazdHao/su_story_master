@@ -7,7 +7,7 @@ cc.Class({
   extends: cc.Component,
   properties: {
     _startBlood: 0,
-    opacity:255,
+    opacity: 255,
   },
   start() {
 
@@ -39,24 +39,24 @@ cc.Class({
 
   },
   // 1 2 3 start win fail
-  onAIAnim (type) {
+  onAIAnim(type) {
     if (type == 1)
-    this.monsterAnim.playAnimation('start',1);
-    else if (type == 2) 
-    this.monsterAnim.playAnimation('fail',1);
-    else if (type == 3) 
-    this.monsterAnim.playAnimation('stay',1);
+      this.monsterAnim.playAnimation('start', 1);
+    else if (type == 2)
+      this.monsterAnim.playAnimation('fail', 1);
+    else if (type == 3)
+      this.monsterAnim.playAnimation('stay', -1);
   },
 
-  onAIText (type) {
+  onAIText(type) {
     this.monsterText.getComponent(cc.Label).string = this.data["text" + type];
     let show = cc.fadeIn(1.0);
     this.monsterText.runAction(show);
     this.scheduleOnce(() => {
       let hide = cc.fadeOut(0);
       let dealyTime = cc.delayTime(2);
-      let seq = cc.sequence(dealyTime,hide);
+      let seq = cc.sequence(dealyTime, hide);
       this.monsterText.runAction(seq);
-    },1)
+    }, 1)
   },
 });
