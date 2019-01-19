@@ -26,7 +26,7 @@ cc.Class({
 
   },
   chooseCard() {
-    if (this._game.status == 0 || this._game._curCardNum == 1) {
+    if (this._game.status == 0) {//|| this._game._curCardNum == 1 测试合成
       return
     }
     this._game.onPlayerChooseCard(this.data, this.node)

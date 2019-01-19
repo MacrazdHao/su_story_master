@@ -14,6 +14,7 @@ cc.Class({
     game: require('Game'),
     referee: require('CombatJudgment'),
     AI: require('AI'),
+    action: require('Action'),
     isWeChat: false,
   },
   init() {

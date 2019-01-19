@@ -10,8 +10,8 @@ cc.Class({
     cardsContainer: cc.Node,
     selectCardContainer: cc.Node,
     cardPrefab: cc.Prefab,
-    currentPlayerCard: [], //选中的卡牌
-    _curCardIndex: -1, //当前卡牌索引
+    curPlayerCard: [], //选中的卡牌
+    curPlayerCardData: [],//当前卡牌的属性
     _curCardNum: 0,
     aiCard: cc.Node,
     // 战斗状态
@@ -28,6 +28,7 @@ cc.Class({
     this.combatJudge = c.referee;
     this.dialog = c.dialog;
     this.page = c.page
+    this.action = c.action;
     this._aiMgr = c.AI
     this.player = player
     this.level = level
@@ -37,6 +38,7 @@ cc.Class({
     this.initUI()
     this.combatJudge.init(this);
   },
+
   initUI() {
     this.status = 1;
     this.onPlayerEnter();
@@ -69,7 +71,7 @@ cc.Class({
   onPlayerEnter() {
     console.log("初始化玩家手里的卡牌", this.player.cards);
     this.recoveryUICards();
-    this.currentPlayerCardArr = [];
+    this.curPlayerCardArr = [];
     this.player.cards.forEach(element => {
       this.instantiateCard(this, element, this.cardsContainer);
     });
@@ -90,7 +92,7 @@ cc.Class({
     this._aiMgr.onAIAnim(1);
     this._aiMgr.onAIText(1);
   },
-  onAIfail () {
+  onAIFail () {
     this._aiMgr.onAIAnim(2);
     this._aiMgr.onAIText(2);
   },
@@ -98,25 +100,115 @@ cc.Class({
     this._aiMgr.onAIAnim(3);
     this._aiMgr.onAIText(3);
   },
+
+  onAIRunKill () {
+
+  },
+
+  onAICardWin() {
+    this.onAIStay();
+    this.scheduleOnce(() => {
+      if (this.player.blood == 1) {
+        this.onGameOver()
+      } else {
+        this._dataMgr.subPlayerBlood(1);
+        this._dataMgr.subPlayerCard(this.curPlayerCardData);
+        this.onNextTurning();
+      }
+    }, 1)
+  },
   /*-------AI入场，失败，退场---------*/
 
-
+  /*----------Player-------------------- */
   onPlayerChooseCard(data, node) {
     this._curCardNum += 1;
     this.playerCurCard = data;
-    this.currentPlayerCard = node;
-    this.currentPlayerCardArr.push(node);
-    this.currentPlayerCardArr.forEach(element => {
+  //  this.curPlayerCard = node;
+    this.curPlayerCardData.push(data);
+    this.curPlayerCardArr.push(node);
+    this.curPlayerCardArr.forEach(element => {
       element.parent = this.selectCardContainer;
     });
   },
 
+  synCard () {
+    let len = Object.keys(this.curPlayerCardData).length;
+    if (len <= 1)
+    return;
+    let skill = -1,speed = -1,fight = -1,value,type = -1;
+    for (let i in this.curPlayerCardData) {
+      value = this.curPlayerCardData[i].cardAtt;
+      if(value == 0)
+      fight += 1;
+      else if (value == 1)
+      speed += 1;
+      else if (value == 2)
+      skill += 1;
+    }
+    if (fight != -1) {//至少有一张
+      if (fight == 2) {//三个力
+       type = 0;
+      }
+      else if (fight == 0 && skill == 0 && speed == 0) 
+        type = 3;
+      else if (fight == 0 && speed == 0 && skill == -1) {//力速
+        type = 1;
+      }
+      else if (fight == 0 && speed == 1) {//力速速
+        type = 1;
+      }
+      else if (fight == 0 && skill == 0 && speed == -1) {//力技
+        type = 0;
+      }
+      else if (fight == 0 && skill == 1) {//力技技
+        type = 2;
+      }
+      else if (fight == 1 && skill == -1 && speed == -1) {//两张 力力
+        type = 0;
+      }
+      else if (fight == 1 && skill == 0) {//两张 力力技
+        type = 0;
+      }
+      else if (fight == 1 && speed == 0) {//两张 力力速
+        type = 0;
+      }
+    }
+    else if (speed!= -1) {
+      if (speed == 2) {
+        type = 2;
+      }
+      if (speed == 0 && skill == 0 && fight == -1) {//速技
+        type = 2;
+      } 
+      else if (speed == 0 && skill == 1) {
+        type = 2;
+      }
+      else if (speed == 1 && skill == 0) {
+        type = 1;
+      }
+      else if (speed == 1 && skill == -1 && fight == -1) {
+        type = 1;
+      }
+    }
+    else if (skill != -1) {
+      if (skill == 1 && speed == -1 && fight == -1) {
+        type = 2;
+      }
+      else if (skill == 2) {
+        type = 2;
+      }
+    }
+    this.playerCurCard.cardAtt = type;
+    this.playerCurCard.cardValue = len;
+    console.log("合成之后的卡牌：",this.playerCurCard);
+  },
+
   resetCard() {
     this._curCardNum = 0;
-    this.currentPlayerCardArr.forEach(element => {
+    this.curPlayerCardArr.forEach(element => {
       element.parent = this.cardsContainer;
     });
-    this.currentPlayerCardArr = [];
+    this.curPlayerCardArr = [];
   },
 
   onCardOut() {
@@ -124,23 +216,18 @@ cc.Class({
       cc.log("请选择一张卡牌");
       return;
     }
-    //  this.currentAICard.active = true;
+    //合成卡牌
+    this.synCard();
+    let skill = this._aiMgr.runSkill(this.level.monster);
+    //失败后再减掉卡牌
+   // this._dataMgr.subPlayerCard(this.curPlayerCardData);
     this.judgeWinOrFail();
-    // 在数据种去除该卡牌
-    let cardArr = this.player.cards;
-    for (let i = 0; i < cardArr.length; i++) {
-      if (cardArr[i] == this.playerCurCard) {
-        cardArr.splice(i, 1);
-        console.log('玩家剩余卡牌:', cardArr)
-        return
-      }
-    }
-
   },
+
 
   judgeWinOrFail() {
       this.scheduleOnce(() => {
-    this.level.monster.cardValue = 5;//假数据
+    this.level.monster.cardValue = 100;//假数据
     let booleValue = this.combatJudge.checkWhoWin(this.playerCurCard, this.level.monster);
     if (booleValue) {
       console.log("玩家赢：");
@@ -150,25 +237,25 @@ cc.Class({
       this.onAICardWin();
     }
      }, 1);
-   // console.log("巅峰对决：", this.level.monster, this.playerCurCard);
+   console.log("巅峰对决：", this.level.monster, this.playerCurCard);
   },
 
   onPlayerCardWin() {
     this.resetCard();
     this.scheduleOnce(() => {
-      if (this.AI.data.blood == 1) {
+      if (this.level.monster.blood == 1) {
         this.nextFight()
       } else {
-        this.AI.data.blood--
-        this.onNextTurning()
+        this._aiMgr.subBlood(1);
+        this.onNextTurning();
       }
-    }, 1)
+    }, 1);
   },
   //升级 level + 1 blood + 1
   nextFight() {
     this._dataMgr.upgradePlayerLevel();
     this.resetCard();
-    this.onAIRandomCard();
+    this.onAIEnter();
     console.log("下一个回合:", this.player);
   },
 
@@ -176,20 +263,10 @@ cc.Class({
 
   onNextTurning() {
     this.resetCard();
-    this.onAIRandomCard();
+    this.onAIFail();
   },
 
-  onAICardWin() {
-    this.onAIStay();
-    this.scheduleOnce(() => {
-      if (this.player.blood == 1) {
-        this.onGameOver()
-      } else {
-        this.player.blood--;
-        this.onNextTurning();
-      }
-    }, 1)
-  },
+ 
 
   onGameOver() {
     let func = () => {
@@ -207,10 +284,10 @@ cc.Class({
 
   recoveryCenterCards() {
     if (this.cardsPool) {
-      this.currentPlayerCardArr.forEach(element => {
+      this.curPlayerCardArr.forEach(element => {
         this.cardsPool.put(element)
       });
-      this.cardsPool.put(this.currentAICard)
+      this.cardsPool.put(this.curAICard)
     }
   },
 

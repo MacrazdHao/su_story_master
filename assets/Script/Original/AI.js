@@ -24,15 +24,17 @@ cc.Class({
   },
   runSkill(data) {
     let blood = data.blood;
+    let harm = -1;
     if (blood == (this._startBlood) * 0.8) { //skill0
-
+      harm = data.skill0;
     } else if (blood > (this._startBlood) * 0.5) { //skill3
-
+      harm = data.skill1;
     } else if (blood < (this._startBlood) * 0.5 && blood > (this._startBlood) * 0.25) { //skill2
-
+      harm = data.skill2;
     } else if (blood < (this._startBlood) * 0.25) { //skill1
-
+      harm = data.skill1;
     }
+    return harm;
   },
 
   runStatus(type) {
@@ -50,13 +52,11 @@ cc.Class({
 
   onAIText(type) {
     this.monsterText.getComponent(cc.Label).string = this.data["text" + type];
-    let show = cc.fadeIn(1.0);
+    let show = cc.fadeIn(3);
     this.monsterText.runAction(show);
-    this.scheduleOnce(() => {
-      let hide = cc.fadeOut(0);
-      let dealyTime = cc.delayTime(2);
-      let seq = cc.sequence(dealyTime, hide);
-      this.monsterText.runAction(seq);
-    }, 1)
+    this._game.action.onAIfade(this.monsterText);
+  },
+  subBlood (sum) {
+    this.data.blood -= sum;
   },
 });

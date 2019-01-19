@@ -1,0 +1,5 @@
+HomeSence.fire.meta
+resources.meta
+testScene.fire.meta
+Component.meta
+Script.meta

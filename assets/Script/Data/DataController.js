@@ -28,11 +28,12 @@ cc.Class({
     this.lateInit()
   },
   lateInit() {
+    let self = this;
     cc.loader.loadRes('Data/LevelData', function (err, jsonAsset) {
-      this.levelData = jsonAsset.json
+      self.levelData = jsonAsset.json
     });
     cc.loader.loadRes('Data/MonsterData', function (err, jsonAsset) {
-      this.monsterData = jsonAsset.json
+      self.monsterData = jsonAsset.json
     });
   },
   //新建游戏时调用
@@ -63,9 +64,9 @@ cc.Class({
    */
   initLevelData(level) {
     // todo 拿取json数据并且获取 使用完之后销毁数据
-    this.level = this.levelData.json[level]
+    this.level = this.levelData[level]
     // 拿到当前的怪物数据
-    this.level.monster = this.monsterData.json[this.level.monsterId.split(",")[Math.floor(Math.random() * 2)]]
+    this.level.monster = this.monsterData[this.level.monsterId.split(",")[Math.floor(Math.random() * 2)]]
     // 初始化AI
     this._controller.AI.init(this.level.monster, this._controller.game);
     console.log("初始化战斗数据", this.level, this.level.monster)
@@ -81,6 +82,24 @@ cc.Class({
     this.player.level += 1;
     this.saveData();
   },
+
+  subPlayerBlood (num) {
+    this.player.blood -= num;
+    this.saveData();
+  },
+
+  subPlayerCard (data) {
+    let cardArr = this.player.cards;
+    for (let i = 0; i < cardArr.length; i++) {
+      for (let j in data) {
+        if (cardArr[i] == data[j])
+        cardArr.splice(i, 1);
+      }
+    }
+    console.log('玩家剩余卡牌:', cardArr)
+  },
+
+
   /**
    * 绑定数据到game
    * @author uu
