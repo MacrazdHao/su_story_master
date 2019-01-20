@@ -96,19 +96,21 @@ cc.Class({
     this._aiMgr.onAIAnim(2);
     this._aiMgr.onAIText(2);
   },
-  onAIStay() {
-    this._aiMgr.onAIAnim(3);
+  onAIWin() {
     this._aiMgr.onAIText(3);
+    setInterval(() => {
+      this.onGameOver()
+    }, 1000)
   },
 
   onAIRunKill() {
 
   },
-
   onAICardWin() {
     this.scheduleOnce(() => {
       if (this.player.blood == 1) {
-        this.onGameOver()
+        this.onAIWin()
+
       } else {
         this._dataMgr.subPlayerBlood(1);
         this._dataMgr.subPlayerCard(this.curPlayerCardData);
