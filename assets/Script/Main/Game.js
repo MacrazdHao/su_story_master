@@ -209,7 +209,7 @@ cc.Class({
     }
     //合成卡牌
     this.synCard();
-    let skill = this._aiMgr.runSkill(this.level.monster);
+    let skill = this._aiMgr.runSkill();
     //失败后再减掉卡牌
     // this._dataMgr.subPlayerCard(this.curPlayerCardData);
     this.judgeWinOrFail();

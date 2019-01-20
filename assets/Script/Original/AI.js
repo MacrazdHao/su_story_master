@@ -22,7 +22,8 @@ cc.Class({
     this.monsterText = this.node.getChildByName('AIText');
     this.monsterAnim = this.node.getChildByName('AIAnim').getComponent(dragonBones.ArmatureDisplay);
   },
-  runSkill(data) {
+  runSkill() {
+    data = this.data
     let blood = data.blood;
     let harm = -1;
     if (blood == (this._startBlood) * 0.8) { //skill0
@@ -44,9 +45,9 @@ cc.Class({
   onAIAnim(type) {
     if (type == 1) {
       this.monsterAnim.playAnimation('start', 1);
-      // setTimeout(() => {
-      //   this.onAIAnim(3)
-      // }, 1000)
+      setTimeout(() => {
+        this.onAIAnim(3)
+      }, 1000)
     } else if (type == 2)
       this.monsterAnim.playAnimation('fail', 1);
     else if (type == 3)
