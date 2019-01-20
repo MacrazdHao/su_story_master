@@ -11,7 +11,7 @@ cc.Class({
     selectCardContainer: cc.Node,
     cardPrefab: cc.Prefab,
     curPlayerCard: [], //选中的卡牌
-    curPlayerCardData: [],//当前卡牌的属性
+    curPlayerCardData: [], //当前卡牌的属性
     _curCardNum: 0,
     aiCard: cc.Node,
     // 战斗状态
@@ -88,25 +88,24 @@ cc.Class({
   },
 
   /*-------AI入场，失败，退场---------*/
-  onAIEnter () {
+  onAIEnter() {
     this._aiMgr.onAIAnim(1);
     this._aiMgr.onAIText(1);
   },
-  onAIFail () {
+  onAIFail() {
     this._aiMgr.onAIAnim(2);
     this._aiMgr.onAIText(2);
   },
-  onAIStay () {
+  onAIStay() {
     this._aiMgr.onAIAnim(3);
     this._aiMgr.onAIText(3);
   },
 
-  onAIRunKill () {
+  onAIRunKill() {
 
   },
 
   onAICardWin() {
-    this.onAIStay();
     this.scheduleOnce(() => {
       if (this.player.blood == 1) {
         this.onGameOver()
@@ -123,7 +122,7 @@ cc.Class({
   onPlayerChooseCard(data, node) {
     this._curCardNum += 1;
     this.playerCurCard = data;
-  //  this.curPlayerCard = node;
+    //  this.curPlayerCard = node;
     this.curPlayerCardData.push(data);
     this.curPlayerCardArr.push(node);
     this.curPlayerCardArr.forEach(element => {
@@ -131,76 +130,66 @@ cc.Class({
     });
   },
 
-  synCard () {
+  synCard() {
     let len = Object.keys(this.curPlayerCardData).length;
     if (len <= 1)
-    return;
-    let skill = -1,speed = -1,fight = -1,value,type = -1;
+      return;
+    let skill = -1,
+      speed = -1,
+      fight = -1,
+      value, type = -1;
     for (let i in this.curPlayerCardData) {
       value = this.curPlayerCardData[i].cardAtt;
-      if(value == 0)
-      fight += 1;
+      if (value == 0)
+        fight += 1;
       else if (value == 1)
-      speed += 1;
+        speed += 1;
       else if (value == 2)
-      skill += 1;
+        skill += 1;
     }
-    if (fight != -1) {//至少有一张
-      if (fight == 2) {//三个力
-       type = 0;
-      }
-      else if (fight == 0 && skill == 0 && speed == 0) 
+    if (fight != -1) { //至少有一张
+      if (fight == 2) { //三个力
+        type = 0;
+      } else if (fight == 0 && skill == 0 && speed == 0)
         type = 3;
-      else if (fight == 0 && speed == 0 && skill == -1) {//力速
+      else if (fight == 0 && speed == 0 && skill == -1) { //力速
         type = 1;
-      }
-      else if (fight == 0 && speed == 1) {//力速速
+      } else if (fight == 0 && speed == 1) { //力速速
         type = 1;
-      }
-      else if (fight == 0 && skill == 0 && speed == -1) {//力技
+      } else if (fight == 0 && skill == 0 && speed == -1) { //力技
         type = 0;
-      }
-      else if (fight == 0 && skill == 1) {//力技技
+      } else if (fight == 0 && skill == 1) { //力技技
         type = 2;
-      }
-      else if (fight == 1 && skill == -1 && speed == -1) {//两张 力力
+      } else if (fight == 1 && skill == -1 && speed == -1) { //两张 力力
+        type = 0;
+      } else if (fight == 1 && skill == 0) { //两张 力力技
+        type = 0;
+      } else if (fight == 1 && speed == 0) { //两张 力力速
         type = 0;
       }
-      else if (fight == 1 && skill == 0) {//两张 力力技
-        type = 0;
-      }
-      else if (fight == 1 && speed == 0) {//两张 力力速
-        type = 0;
-      }
-    }
-    else if (speed!= -1) {
+    } else if (speed != -1) {
       if (speed == 2) {
         type = 2;
       }
-      if (speed == 0 && skill == 0 && fight == -1) {//速技
+      if (speed == 0 && skill == 0 && fight == -1) { //速技
         type = 2;
-      } 
-      else if (speed == 0 && skill == 1) {
+      } else if (speed == 0 && skill == 1) {
         type = 2;
-      }
-      else if (speed == 1 && skill == 0) {
+      } else if (speed == 1 && skill == 0) {
+        type = 1;
+      } else if (speed == 1 && skill == -1 && fight == -1) {
         type = 1;
       }
-      else if (speed == 1 && skill == -1 && fight == -1) {
-        type = 1;
-      }
-    }
-    else if (skill != -1) {
+    } else if (skill != -1) {
       if (skill == 1 && speed == -1 && fight == -1) {
         type = 2;
-      }
-      else if (skill == 2) {
+      } else if (skill == 2) {
         type = 2;
       }
     }
     this.playerCurCard.cardAtt = type;
     this.playerCurCard.cardValue = len;
-    console.log("合成之后的卡牌：",this.playerCurCard);
+    console.log("合成之后的卡牌：", this.playerCurCard);
   },
 
   resetCard() {
@@ -220,24 +209,24 @@ cc.Class({
     this.synCard();
     let skill = this._aiMgr.runSkill(this.level.monster);
     //失败后再减掉卡牌
-   // this._dataMgr.subPlayerCard(this.curPlayerCardData);
+    // this._dataMgr.subPlayerCard(this.curPlayerCardData);
     this.judgeWinOrFail();
   },
 
 
   judgeWinOrFail() {
-      this.scheduleOnce(() => {
-    this.level.monster.cardValue = 100;//假数据
-    let booleValue = this.combatJudge.checkWhoWin(this.playerCurCard, this.level.monster);
-    if (booleValue) {
-      console.log("玩家赢：");
-      this.onPlayerCardWin()
-    } else {
-      console.log("AI赢");
-      this.onAICardWin();
-    }
-     }, 1);
-   console.log("巅峰对决：", this.level.monster, this.playerCurCard);
+    this.scheduleOnce(() => {
+      this.level.monster.cardValue = 100; //假数据
+      let booleValue = this.combatJudge.checkWhoWin(this.playerCurCard, this.level.monster);
+      if (booleValue) {
+        console.log("玩家赢：");
+        this.onPlayerCardWin()
+      } else {
+        console.log("AI赢");
+        this.onAICardWin();
+      }
+    }, 1);
+    console.log("巅峰对决：", this.level.monster, this.playerCurCard);
   },
 
   onPlayerCardWin() {
@@ -266,7 +255,7 @@ cc.Class({
     this.onAIFail();
   },
 
- 
+
 
   onGameOver() {
     let func = () => {

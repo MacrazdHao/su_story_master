@@ -42,9 +42,12 @@ cc.Class({
   },
   // 1 2 3 start win fail
   onAIAnim(type) {
-    if (type == 1)
+    if (type == 1) {
       this.monsterAnim.playAnimation('start', 1);
-    else if (type == 2)
+      // setTimeout(() => {
+      //   this.onAIAnim(3)
+      // }, 1000)
+    } else if (type == 2)
       this.monsterAnim.playAnimation('fail', 1);
     else if (type == 3)
       this.monsterAnim.playAnimation('stay', -1);
@@ -56,7 +59,7 @@ cc.Class({
     this.monsterText.runAction(show);
     this._game.action.onAIfade(this.monsterText);
   },
-  subBlood (sum) {
+  subBlood(sum) {
     this.data.blood -= sum;
   },
 });
