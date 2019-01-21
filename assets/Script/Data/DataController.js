@@ -35,21 +35,17 @@ cc.Class({
     cc.loader.loadRes('Data/MonsterData', function (err, jsonAsset) {
       self.monsterData = jsonAsset.json
     });
+    cc.loader.loadRes('Data/PreinstallCard', function (err, jsonAsset) {
+      self.cardData = jsonAsset.json
+    });
+    cc.loader.loadRes('Data/KongfuData', function (err, jsonAsset) {
+      self.KongfuData = jsonAsset.json
+    });
   },
-  //新建游戏时调用
   initPlayerData() {
     this.player = {
       level: 1,
-      cards: [{
-        cardAtt: 0,
-        cardValue: 1,
-      }, {
-        cardAtt: 1,
-        cardValue: 1,
-      }, {
-        cardAtt: 2,
-        cardValue: 1,
-      }],
+      cards: [this.cardData[1], this.cardData[2], this.cardData[3]],
       item: [],
       progress: 0,
       blood: 1,
@@ -63,11 +59,8 @@ cc.Class({
    * @param {string} level - 关卡数
    */
   initLevelData(level) {
-    // todo 拿取json数据并且获取 使用完之后销毁数据
     this.level = this.levelData[level]
-    // 拿到当前的怪物数据
     this.level.monster = this.monsterData[this.level.monsterId.split(",")[Math.floor(Math.random() * 2)]]
-    // 初始化AI
     this._controller.AI.init(this.level.monster, this._controller.game);
     console.log("初始化战斗数据", this.level, this.level.monster)
     return this.level
@@ -83,22 +76,24 @@ cc.Class({
     this.saveData();
   },
 
-  subPlayerBlood (num) {
+  subPlayerBlood(num) {
     this.player.blood -= num;
     this.saveData();
   },
 
-  subPlayerCard (data) {
+  subPlayerCard(data) {
     let cardArr = this.player.cards;
     for (let i = 0; i < cardArr.length; i++) {
       for (let j in data) {
         if (cardArr[i] == data[j])
-        cardArr.splice(i, 1);
+          cardArr.splice(i, 1);
       }
     }
     console.log('玩家剩余卡牌:', cardArr)
   },
-
+  getKongfuNameById(id) {
+    return this.KongfuData[id]
+  },
 
   /**
    * 绑定数据到game

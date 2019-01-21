@@ -189,9 +189,11 @@ cc.Class({
         type = 2;
       }
     }
-    this.playerCurCard.cardAtt = type;
-    this.playerCurCard.cardValue = len;
-    console.log("合成之后的卡牌：", this.playerCurCard);
+    return {
+      cardAtt: type,
+      cardValue: len,
+      cardName:'',
+    }
   },
 
   resetCard() {
@@ -208,8 +210,7 @@ cc.Class({
       return;
     }
     //合成卡牌
-    this.synCard();
-    let skill = this._aiMgr.runSkill();
+    this.playerCurCard = this.synCard();
     //失败后再减掉卡牌
     // this._dataMgr.subPlayerCard(this.curPlayerCardData);
     this.judgeWinOrFail();
@@ -218,20 +219,20 @@ cc.Class({
 
   judgeWinOrFail() {
     this.scheduleOnce(() => {
-      this.level.monster.cardValue = 100; //假数据
-      let booleValue = this.combatJudge.checkWhoWin(this.playerCurCard, this.level.monster);
-      if (booleValue) {
+      let skill = this._aiMgr.runSkill();
+      let booleValue = this.combatJudge.checkWhoWin(this.playerCurCard, skill);
+      if (booleValue.isWin) {
         console.log("玩家赢：");
-        this.onPlayerCardWin()
+        this.onPlayerCardWin(booleValue)
       } else {
         console.log("AI赢");
-        this.onAICardWin();
+        this.onAICardWin(booleValue);
       }
     }, 1);
     console.log("巅峰对决：", this.level.monster, this.playerCurCard);
   },
 
-  onPlayerCardWin() {
+  onPlayerCardWin(data) {
     this.resetCard();
     this.scheduleOnce(() => {
       if (this.level.monster.blood == 1) {

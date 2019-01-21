@@ -30,6 +30,5 @@ cc.Class({
   // ------------ 按钮绑定 --------------
   onStartButton() {
     this.game.init(this, this.data.initPlayerData(), this.data.initLevelData(1))
-    
   }
 });
