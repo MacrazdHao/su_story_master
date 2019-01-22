@@ -30,6 +30,7 @@ cc.Class({
     this.page = c.page
     this.action = c.action;
     this._aiMgr = c.AI
+    this.test = c.test;
     this.player = player
     this.level = level
     this.lateInit()
@@ -116,6 +117,7 @@ cc.Class({
         this._dataMgr.subPlayerCard(this.curPlayerCardData);
         this.onNextTurning();
       }
+      this.status = 1;
     }, 1)
   },
   /*-------AI入场，失败，退场---------*/
@@ -132,70 +134,6 @@ cc.Class({
     });
   },
 
-  synCard() {
-    let len = Object.keys(this.curPlayerCardData).length;
-    if (len <= 1)
-      return;
-    let skill = -1,
-      speed = -1,
-      fight = -1,
-      value, type = -1;
-    for (let i in this.curPlayerCardData) {
-      value = this.curPlayerCardData[i].cardAtt;
-      if (value == 0)
-        fight += 1;
-      else if (value == 1)
-        speed += 1;
-      else if (value == 2)
-        skill += 1;
-    }
-    if (fight != -1) { //至少有一张
-      if (fight == 2) { //三个力
-        type = 0;
-      } else if (fight == 0 && skill == 0 && speed == 0)
-        type = 3;
-      else if (fight == 0 && speed == 0 && skill == -1) { //力速
-        type = 1;
-      } else if (fight == 0 && speed == 1) { //力速速
-        type = 1;
-      } else if (fight == 0 && skill == 0 && speed == -1) { //力技
-        type = 0;
-      } else if (fight == 0 && skill == 1) { //力技技
-        type = 2;
-      } else if (fight == 1 && skill == -1 && speed == -1) { //两张 力力
-        type = 0;
-      } else if (fight == 1 && skill == 0) { //两张 力力技
-        type = 0;
-      } else if (fight == 1 && speed == 0) { //两张 力力速
-        type = 0;
-      }
-    } else if (speed != -1) {
-      if (speed == 2) {
-        type = 2;
-      }
-      if (speed == 0 && skill == 0 && fight == -1) { //速技
-        type = 2;
-      } else if (speed == 0 && skill == 1) {
-        type = 2;
-      } else if (speed == 1 && skill == 0) {
-        type = 1;
-      } else if (speed == 1 && skill == -1 && fight == -1) {
-        type = 1;
-      }
-    } else if (skill != -1) {
-      if (skill == 1 && speed == -1 && fight == -1) {
-        type = 2;
-      } else if (skill == 2) {
-        type = 2;
-      }
-    }
-    return {
-      cardAtt: type,
-      cardValue: len,
-      cardName:'',
-    }
-  },
-
   resetCard() {
     this._curCardNum = 0;
     this.curPlayerCardArr.forEach(element => {
@@ -210,7 +148,7 @@ cc.Class({
       return;
     }
     //合成卡牌
-    this.playerCurCard = this.synCard();
+   this.playerCurCard = this.test.synCard(this.curPlayerCardData);
     //失败后再减掉卡牌
     // this._dataMgr.subPlayerCard(this.curPlayerCardData);
     this.judgeWinOrFail();
@@ -218,6 +156,7 @@ cc.Class({
 
 
   judgeWinOrFail() {
+    this.status = 2;
     this.scheduleOnce(() => {
       let skill = this._aiMgr.runSkill();
       let booleValue = this.combatJudge.checkWhoWin(this.playerCurCard, skill);
@@ -241,8 +180,11 @@ cc.Class({
         this._aiMgr.subBlood(1);
         this.onNextTurning();
       }
+      this.status = 1;
     }, 1);
   },
+
+  
   //升级 level + 1 blood + 1
   nextFight() {
     this._dataMgr.upgradePlayerLevel();
@@ -251,14 +193,10 @@ cc.Class({
     console.log("下一个回合:", this.player);
   },
 
-
-
   onNextTurning() {
     this.resetCard();
     this.onAIFail();
   },
-
-
 
   onGameOver() {
     let func = () => {

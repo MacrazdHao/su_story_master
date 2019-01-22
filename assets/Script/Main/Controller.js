@@ -14,12 +14,14 @@ cc.Class({
     game: require('Game'),
     referee: require('CombatJudgment'),
     AI: require('AI'),
+    test:require('Test'),
     action: require('Action'),
     isWeChat: false,
   },
   init() {
     this.data.init(this);
     this.page.init(this);
+    this.test.init(this);
   },
   start() {
     if (this.isWeChat) {

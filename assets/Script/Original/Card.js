@@ -30,6 +30,5 @@ cc.Class({
       return
     }
     this._game.onPlayerChooseCard(this.data, this.node)
-    // this.UI.onCardOut(this.node, this.data)
   },
 });
