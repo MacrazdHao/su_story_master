@@ -23,7 +23,11 @@ cc.Class({
     this.monsterAnim = this.node.getChildByName('AIAnim').getComponent(dragonBones.ArmatureDisplay);
   },
   runSkill() {
+<<<<<<< HEAD
     let data = this.data;
+=======
+    let data = this.data
+>>>>>>> 4f417b49e4c481cd613174c6ee9a85114bcc055f
     let blood = data.blood;
     let harm = -1;
     if (blood == (this._startBlood) * 0.8) { //skill0

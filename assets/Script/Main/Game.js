@@ -14,6 +14,7 @@ cc.Class({
     curPlayerCardData: [], //当前卡牌的属性
     _curCardNum: 0,
     aiCard: cc.Node,
+    UI:require('UI'),
     // 战斗状态
     // 0:未知状态/未初始化状态/不可操作状态
     // 1:只有在1下才是可自由操作卡牌状态
@@ -174,7 +175,7 @@ cc.Class({
   onPlayerCardWin(data) {
     this.resetCard();
     this.scheduleOnce(() => {
-      if (this.level.monster.blood == 1) {
+      if (this.level.monster.blood <= data.damage) {
         this.nextFight()
       } else {
         this._aiMgr.subBlood(1);
@@ -195,7 +196,7 @@ cc.Class({
 
   onNextTurning() {
     this.resetCard();
-    this.onAIFail();
+  //  this.onAIFail();
   },
 
   onGameOver() {
