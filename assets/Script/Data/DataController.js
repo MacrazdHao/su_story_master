@@ -65,6 +65,9 @@ cc.Class({
     console.log("初始化战斗数据", this.level, this.level.monster)
     return this.level
   },
+  getKongfuNameById(id) {
+    return this.KongfuData[id]
+  },
   // -------------------- 玩家数据操作-----------------
   /**
    * 绑定数据到game

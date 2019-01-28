@@ -30,6 +30,7 @@ cc.Class({
   },
   lateInit() {
     this.initUI()
+    this.Cards.init(this)
     this.combatJudge.init(this);
   },
 
@@ -69,10 +70,9 @@ cc.Class({
     this.scheduleOnce(() => {
       if (this.player.blood == 1) {
         this.onAIWin()
-
       } else {
-        this._dataMgr.subPlayerBlood(1);
-        this._dataMgr.subPlayerCard(this.curPlayerCardData);
+        this.subPlayerBlood(1);
+        this.subPlayerCard(this.curPlayerCardData);
         this.onNextTurning();
       }
       this.status = 1;
@@ -111,21 +111,22 @@ cc.Class({
 
   //升级 level + 1 blood + 1
   nextFight() {
-    this._dataMgr.upgradePlayerLevel();
-    this.resetCard();
+    this.upgradePlayerLevel();
+    this.Cards.resetCard();
     this.onAIEnter();
+    this.status = 1
     console.log("下一个回合:", this.player);
   },
 
   onNextTurning() {
-    this.resetCard();
+    this.Cards.resetCard();
     this.status = 1
   },
 
   onGameOver() {
     let func = () => {
       this._controller.init();
-      this._controller.page.onOpenPage(2);
+      this.page.onOpenPage(2);
     };
     this._controller.dialog.init(
       "游戏结束了！",
@@ -133,7 +134,6 @@ cc.Class({
       func,
       null
     );
-    this.recoveryCenterCards();
   },
   /**
    * 玩家通过关卡升级操作
@@ -142,12 +142,12 @@ cc.Class({
   upgradePlayerLevel() {
     this.player.blood += 1;
     this.player.level += 1;
-    this.saveData();
+    this.UI.freshenPlayerBlood()
   },
 
   subPlayerBlood(num) {
     this.player.blood -= num;
-    this.saveData();
+    this.UI.subPlayerBlood(num)
   },
 
   subPlayerCard(data) {
@@ -160,7 +160,5 @@ cc.Class({
     }
     console.log('玩家剩余卡牌:', cardArr)
   },
-  getKongfuNameById(id) {
-    return this.KongfuData[id]
-  },
+ 
 });

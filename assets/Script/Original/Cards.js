@@ -12,10 +12,10 @@ cc.Class({
     cardsContainer: cc.Node,
     selectCardContainer: cc.Node,
     curPlayerCardData: [],
-    aiCardNode: cc.Node,
+    aiCard: cc.Node,
   },
 
-  init(data, g) {
+  init(g) {
     this._controller = g._controller
     this._game = g
     this._data = this._game._dataMgr
@@ -35,10 +35,10 @@ cc.Class({
     }
   },
   loadPlayerCard() {
-    console.log("初始化玩家手里的卡牌", this.player);
+    console.log("初始化玩家手里的卡牌", this._game.player);
     this.recoveryUICards();
     this.curPlayerCardArr = [];
-    this.player.cards.forEach(element => {
+    this._game.player.cards.forEach(element => {
       this.instantiateCard(this, element, this.cardsContainer);
     });
   },
@@ -140,7 +140,7 @@ cc.Class({
     }
   },
   subPlayerCard() {
-    let cardArr = this.player.cards;
+    let cardArr = this._game.player.cards;
     let data = this.curPlayerCardData;
     for (let i = 0; i < cardArr.length; i++) {
       for (let j in data) {

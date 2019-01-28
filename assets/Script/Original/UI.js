@@ -5,7 +5,9 @@
  */
 cc.Class({
   extends: cc.Component,
-  properties: {},
+  properties: {
+    
+  },
   start() {
 
   },
@@ -15,4 +17,12 @@ cc.Class({
   lateInit() {
 
   },
+
+  // ---------- 血量操控------------
+  subPlayerBlood(num) {
+
+  },
+  freshenPlayerBlood() {
+
+  }
 });
