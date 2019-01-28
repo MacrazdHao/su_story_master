@@ -18,7 +18,6 @@ cc.Class({
   freshenNode(cur) {
     this.current = cur;
     this.label.string = this.current + '/' + this.total
-   // this.blood.scaleX = this.current / this.total
     this.bar.progress = this.current / this.total;
   }
 });

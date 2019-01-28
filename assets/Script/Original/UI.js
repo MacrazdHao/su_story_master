@@ -1,28 +1,32 @@
 /**
  * @author uu
- * @file UI刷新
+ * @file 玩家血条刷新 
  * @todo 
  */
 cc.Class({
   extends: cc.Component,
   properties: {
-    bloodBar:cc.ProgressBar
+    bloodBar: require('Blood')
   },
   start() {
 
   },
   init(g) {
     this._game = g
+    this.initBlood()
   },
   lateInit() {
 
   },
 
   // ---------- 血量操控------------
-  subPlayerBlood(num) {
-
+  initBlood() {
+    this.bloodBar.init(this._game.player.totalBlood, this._game.player.blood)
+  },
+  subPlayerBlood() {
+    this.freshenPlayerBlood()
   },
   freshenPlayerBlood() {
-    
+    this.bloodBar.freshenNode(this.data.blood);
   }
 });

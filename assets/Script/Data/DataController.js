@@ -44,6 +44,7 @@ cc.Class({
       item: [],
       progress: 0,
       blood: 1,
+      totalBlood: 1,
       status: [],
       equipment: [],
     }

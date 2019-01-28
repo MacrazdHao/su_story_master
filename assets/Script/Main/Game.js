@@ -109,13 +109,14 @@ cc.Class({
    */
   upgradePlayerLevel() {
     this.player.blood += 1;
+    this.player.totalBlood += 1
     this.player.level += 1;
     this.UI.freshenPlayerBlood()
   },
 
   subPlayerBlood(num) {
     this.player.blood -= num;
-    this.UI.subPlayerBlood(num)
+    this.UI.subPlayerBlood()
   },
 
   subPlayerCard(data) {

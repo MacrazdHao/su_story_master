@@ -48,7 +48,7 @@ cc.Class({
   runStatus(type) {
 
   },
-  // 1 2 3 start win fail
+  // 1 2 3 start fail stay
   onAIAnim(type) {
     if (type == 1) {
       this.monsterAnim.playAnimation('start', 1);
@@ -76,7 +76,6 @@ cc.Class({
   },
   onAIWin() {
     this.onAIText(3);
-  
   },
   subBlood(sum) {
     this.data.blood -= sum;
