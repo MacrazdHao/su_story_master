@@ -1711,7 +1711,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
+      "width": 197,
       "height": 17
     },
     "_rotationX": 0,
@@ -1720,7 +1720,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 0,
+      "x": 1.4,
       "y": 0
     },
     "_skewX": 0,
@@ -1801,12 +1801,12 @@
       "__id__": 40
     },
     "_enabled": true,
-    "_N$totalLength": 100,
+    "_N$totalLength": 197,
     "_N$barSprite": {
       "__id__": 42
     },
     "_N$mode": 0,
-    "_N$progress": 0.5,
+    "_N$progress": 1,
     "_N$reverse": false
   },
   {
@@ -3795,7 +3795,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
+      "width": 197,
       "height": 17
     },
     "_rotationX": 0,
@@ -3804,7 +3804,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 0,
+      "x": 1.7,
       "y": 0
     },
     "_skewX": 0,
@@ -3885,7 +3885,7 @@
       "__id__": 97
     },
     "_enabled": true,
-    "_N$totalLength": 200,
+    "_N$totalLength": 197,
     "_N$barSprite": {
       "__id__": 99
     },

@@ -27,6 +27,6 @@ cc.Class({
     this.freshenPlayerBlood()
   },
   freshenPlayerBlood() {
-    this.bloodBar.freshenNode(this.data.blood);
+    this.bloodBar.freshenNode(this._game.player.blood);
   }
 });

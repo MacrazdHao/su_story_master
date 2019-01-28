@@ -30,6 +30,7 @@ cc.Class({
   lateInit() {
     this.Cards.init(this)
     this.combatJudge.init(this);
+    this.UI.init(this)
     this.initUI()
   },
 
@@ -111,7 +112,7 @@ cc.Class({
     this.player.blood += 1;
     this.player.totalBlood += 1
     this.player.level += 1;
-    this.UI.freshenPlayerBlood()
+    this.UI.initBlood()
   },
 
   subPlayerBlood(num) {
