@@ -35,63 +35,52 @@ cc.Class({
 
   initUI() {
     this.status = 1;
-    this.onPlayerEnter();
-    this.onAIEnter();
-  },
-  onPlayerEnter() {
-    console.log("初始化玩家手里的卡牌", this.player.cards);
     this.Cards.loadPlayerCard()
+    this._aiMgr.onAIEnter();
   },
-  /*-------AI入场，失败，退场---------*/
-  onAIEnter() {
-    this._aiMgr.onAIAnim(1);
-    this._aiMgr.onAIText(1);
-  },
-  onAIFail() {
-    this._aiMgr.onAIAnim(2);
-    this._aiMgr.onAIText(2);
-  },
-  onAIWin() {
-    this._aiMgr.onAIText(3);
-    setInterval(() => {
-      this.onGameOver()
-    }, 1000)
-  },
-
-  onAIRunKill() {
-
-  },
-  onAICardWin() {
+  /*------- 卡牌输赢 ---------*/
+  judgeWinOrFail(data) {
+    this.status = 2;
     this.scheduleOnce(() => {
-      if (this.player.blood == 1) {
-        this.onAIWin()
+      let skill = this._dataMgr.getSkillById(this._aiMgr.runSkill())
+      let booleValue = this.combatJudge.checkWhoWin(data, skill)
+      booleValue.isWin ? this.onPlayerCardWin(booleValue) : this.onAICardWin(booleValue)
+    }, 1);
+  },
+  onAICardWin(data) {
+    this.scheduleOnce(() => {
+      if (this.player.blood <= data.damage) {
+        this._aiMgr.onAIWin()
+        setTimeout(() => {
+          this.onGameOver()
+        }, 1000)
       } else {
-        //  this.subPlayerBlood(1);
-        //  this.subPlayerCard(this.curPlayerCardData);
+        this.subPlayerBlood(data.damage);
         this.onNextTurning();
       }
       this.status = 1;
     }, 1)
   },
   onPlayerCardWin(data) {
-    this.resetCard();
+    this.Cards.resetCard();
     this.scheduleOnce(() => {
       if (this.level.monster.blood <= data.damage) {
+        this._aiMgr.onAIFail()
         this.nextFight()
       } else {
-        this._aiMgr.subBlood(1);
+        this._aiMgr.subBlood(data.damage);
         this.onNextTurning();
       }
       this.status = 1;
     }, 1);
   },
 
-  /*----------Player-------------------- */
-  //升级 level + 1 blood + 1
+  /*----------回合控制-------------------- */
   nextFight() {
     this.upgradePlayerLevel();
+    this.level = this._dataMgr.initLevelData(this.player.level + 1)
     this.Cards.resetCard();
-    this.onAIEnter();
+    this._aiMgr.onAIEnter();
     this.status = 1
     console.log("下一个回合:", this.player);
   },
@@ -113,21 +102,7 @@ cc.Class({
       null
     );
   },
-  judgeWinOrFail() {
-    this.status = 2;
-    this.scheduleOnce(() => {
-      let skill = this._aiMgr.runSkill();
-      let booleValue = this.combatJudge.checkWhoWin(this.playerCurCard, skill);
-      if (booleValue.isWin) {
-        console.log("玩家赢：");
-        this.onPlayerCardWin(booleValue)
-      } else {
-        console.log("AI赢");
-        this.onAICardWin(booleValue);
-      }
-    }, 1);
-    console.log("巅峰对决：", this.level.monster, this.playerCurCard);
-  },
+
   /**
    * 玩家通过关卡升级操作
    * @author kunji

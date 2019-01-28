@@ -29,18 +29,13 @@ cc.Class({
   },
   lateInit() {
     let self = this;
-    cc.loader.loadRes('Data/LevelData', function (err, jsonAsset) {
-      self.levelData = jsonAsset.json
-    });
-    cc.loader.loadRes('Data/MonsterData', function (err, jsonAsset) {
-      self.monsterData = jsonAsset.json
-    });
-    cc.loader.loadRes('Data/PreinstallCard', function (err, jsonAsset) {
-      self.cardData = jsonAsset.json
-    });
-    cc.loader.loadRes('Data/KongfuData', function (err, jsonAsset) {
-      self.KongfuData = jsonAsset.json
-    });
+    let data = ['LevelData', 'MonsterData', 'PreinstallCard', 'KongfuData', 'SkillData']
+    let josnData = ['levelData', 'monsterData', 'cardData', 'kongfuData', 'skillData']
+    data.forEach((item, index) => {
+      cc.loader.loadRes('Data/' + item, function (err, jsonAsset) {
+        self[josnData[index]] = jsonAsset.json
+      });
+    })
   },
   initPlayerData() {
     this.player = {
@@ -66,7 +61,10 @@ cc.Class({
     return this.level
   },
   getKongfuNameById(id) {
-    return this.KongfuData[id]
+    return this.kongfuData[id]
+  },
+  getSkillById(id) {
+    return this.skillData[id]
   },
   // -------------------- 玩家数据操作-----------------
   /**

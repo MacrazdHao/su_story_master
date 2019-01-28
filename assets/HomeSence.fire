@@ -1705,7 +1705,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 97.5,
+      "width": 195,
       "height": 17
     },
     "_rotationX": 0,
@@ -1789,7 +1789,7 @@
       "__id__": 42
     },
     "_N$mode": 0,
-    "_N$progress": 0.5,
+    "_N$progress": 1,
     "_N$reverse": false
   },
   {
@@ -3971,7 +3971,10 @@
     },
     "_enabled": true,
     "_startBlood": 0,
-    "opacity": 255
+    "opacity": 255,
+    "lostBloodNode": {
+      "__id__": 90
+    }
   },
   {
     "__type__": "cc.Node",
@@ -4199,7 +4202,7 @@
     "target": {
       "__id__": 30
     },
-    "component": "Game",
+    "component": "Cards",
     "handler": "onCardOut",
     "customEventData": ""
   },
@@ -4456,7 +4459,8 @@
     "node": {
       "__id__": 30
     },
-    "_enabled": true
+    "_enabled": true,
+    "bloodBar": null
   },
   {
     "__type__": "59ecb3ChfRCyZt2SGVw54ga",

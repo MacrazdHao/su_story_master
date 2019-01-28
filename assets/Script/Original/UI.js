@@ -6,7 +6,7 @@
 cc.Class({
   extends: cc.Component,
   properties: {
-    
+    bloodBar:cc.ProgressBar
   },
   start() {
 
@@ -23,6 +23,6 @@ cc.Class({
 
   },
   freshenPlayerBlood() {
-
+    
   }
 });

@@ -26,7 +26,7 @@ cc.Class({
     this.createPools();
     this._curCardNum = 0;
   },
-  freshenCards(){
+  freshenCards() {
     this._game.player.cards.forEach(element => {
       this.instantiateCard(this, element, this.cardsContainer);
     });
@@ -70,7 +70,6 @@ cc.Class({
           element.cardAtt == 0 ? fight++ : (element.cardAtt == 1 ? speed++ : skill++)
           value += element.cardValue
         });
-
         console.log('卡牌中三种卡牌的值', fight, speed, skill)
         if (data.length == 2) {
           if (fight == 2) {
@@ -153,7 +152,19 @@ cc.Class({
     }
     console.log('玩家剩余卡牌:', cardArr)
   },
-
+  onCardOut() {
+    this._game.status = 2
+    if (!this._curCardNum) {
+      cc.log("请选择一张卡牌");
+      return;
+    }
+    //合成卡牌
+    this.playerCurCard = this.synCard(this.curPlayerCardData);
+    this._game.subPlayerCard(this.curPlayerCardData);
+    //失败后再减掉卡牌
+    // this._dataMgr.subPlayerCard(this.curPlayerCardData);
+    this._game.judgeWinOrFail(this.playerCurCard);
+  },
   resetCard() {
     this._curCardNum = 0;
     this.curPlayerCardArr.forEach(element => {
