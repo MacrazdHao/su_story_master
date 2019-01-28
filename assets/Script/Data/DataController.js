@@ -67,35 +67,6 @@ cc.Class({
   },
   // -------------------- 玩家数据操作-----------------
   /**
-   * 玩家通过关卡升级操作
-   * @author kunji
-   */
-  upgradePlayerLevel() {
-    this.player.blood += 1;
-    this.player.level += 1;
-    this.saveData();
-  },
-
-  subPlayerBlood(num) {
-    this.player.blood -= num;
-    this.saveData();
-  },
-
-  subPlayerCard(data) {
-    let cardArr = this.player.cards;
-    for (let i = 0; i < cardArr.length; i++) {
-      for (let j in data) {
-        if (cardArr[i] == data[j])
-          cardArr.splice(i, 1);
-      }
-    }
-    console.log('玩家剩余卡牌:', cardArr)
-  },
-  getKongfuNameById(id) {
-    return this.KongfuData[id]
-  },
-
-  /**
    * 绑定数据到game
    * @author uu
    */

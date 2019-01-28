@@ -1,28 +1,20 @@
 /**
  * @author uu
- * @file  游戏流程主控制器
+ * @file  游戏流程主控制器 以及当前游戏数据管理
  * @todo 
  */
 cc.Class({
   extends: cc.Component,
   properties: {
     status: 0,
-    cardsContainer: cc.Node,
-    selectCardContainer: cc.Node,
-    cardPrefab: cc.Prefab,
-    curPlayerCard: [], //选中的卡牌
-    curPlayerCardData: [], //当前卡牌的属性
-    _curCardNum: 0,
-    aiCard: cc.Node,
-    UI:require('UI'),
     // 战斗状态
     // 0:未知状态/未初始化状态/不可操作状态
     // 1:只有在1下才是可自由操作卡牌状态
     // 2:裁判判断阶段/动画阶段/不可操作状态
+    UI: require('UI'),
+    Cards: require('Cards')
   },
-  start() {
-    this.createPools();
-  },
+  // ------------ 关卡初始化 -----------------------
   init(c, player, level) {
     this._controller = c;
     this._dataMgr = c.data;
@@ -46,30 +38,6 @@ cc.Class({
     this.onPlayerEnter();
     this.onAIEnter();
   },
-
-  createPools() {
-    this.cardsPool = new cc.NodePool()
-    let initCount = 10
-    for (let i = 0; i < initCount; i++) {
-      let card = cc.instantiate(this.cardPrefab)
-      this.cardsPool.put(card)
-    }
-  },
-
-  instantiateCard(self, data, parent) {
-    let card = null
-    if (self.cardsPool && self.cardsPool.size() > 0) {
-      card = self.cardsPool.get()
-    } else {
-      card = cc.instantiate(self.cardPrefab)
-    }
-    card.parent = parent
-    card.scale = 1
-    card.x = 0
-    card.y = 0
-    card.getComponent('Card').init(self, data)
-  },
-
   onPlayerEnter() {
     console.log("初始化玩家手里的卡牌", this.player.cards);
     this.recoveryUICards();
@@ -78,17 +46,6 @@ cc.Class({
       this.instantiateCard(this, element, this.cardsContainer);
     });
   },
-
-  recoveryUICards() {
-    let childrens = this.cardsContainer.children
-    if (childrens.length != 0) {
-      let length = childrens.length;
-      for (let i = 0; i < length; i++) {
-        this.cardsPool.put(childrens[i])
-      }
-    }
-  },
-
   /*-------AI入场，失败，退场---------*/
   onAIEnter() {
     this._aiMgr.onAIAnim(1);
@@ -121,41 +78,7 @@ cc.Class({
       this.status = 1;
     }, 1)
   },
-  /*-------AI入场，失败，退场---------*/
-
   /*----------Player-------------------- */
-  onPlayerChooseCard(data, node) {
-    this._curCardNum += 1;
-    this.playerCurCard = data;
-    //  this.curPlayerCard = node;
-    this.curPlayerCardData.push(data);
-    this.curPlayerCardArr.push(node);
-    this.curPlayerCardArr.forEach(element => {
-      element.parent = this.selectCardContainer;
-    });
-  },
-
-  resetCard() {
-    this._curCardNum = 0;
-    this.curPlayerCardArr.forEach(element => {
-      element.parent = this.cardsContainer;
-    });
-    this.curPlayerCardArr = [];
-  },
-
-  onCardOut() {
-    if (!this._curCardNum) {
-      cc.log("请选择一张卡牌");
-      return;
-    }
-    //合成卡牌
-   this.playerCurCard = this.test.synCard(this.curPlayerCardData);
-    //失败后再减掉卡牌
-    // this._dataMgr.subPlayerCard(this.curPlayerCardData);
-    this.judgeWinOrFail();
-  },
-
-
   judgeWinOrFail() {
     this.status = 2;
     this.scheduleOnce(() => {
@@ -185,7 +108,7 @@ cc.Class({
     }, 1);
   },
 
-  
+
   //升级 level + 1 blood + 1
   nextFight() {
     this._dataMgr.upgradePlayerLevel();
@@ -196,7 +119,7 @@ cc.Class({
 
   onNextTurning() {
     this.resetCard();
-  //  this.onAIFail();
+    this.status = 1
   },
 
   onGameOver() {
@@ -212,14 +135,32 @@ cc.Class({
     );
     this.recoveryCenterCards();
   },
-
-  recoveryCenterCards() {
-    if (this.cardsPool) {
-      this.curPlayerCardArr.forEach(element => {
-        this.cardsPool.put(element)
-      });
-      this.cardsPool.put(this.curAICard)
-    }
+  /**
+   * 玩家通过关卡升级操作
+   * @author kunji
+   */
+  upgradePlayerLevel() {
+    this.player.blood += 1;
+    this.player.level += 1;
+    this.saveData();
   },
 
+  subPlayerBlood(num) {
+    this.player.blood -= num;
+    this.saveData();
+  },
+
+  subPlayerCard(data) {
+    let cardArr = this.player.cards;
+    for (let i = 0; i < cardArr.length; i++) {
+      for (let j in data) {
+        if (cardArr[i] == data[j])
+          cardArr.splice(i, 1);
+      }
+    }
+    console.log('玩家剩余卡牌:', cardArr)
+  },
+  getKongfuNameById(id) {
+    return this.KongfuData[id]
+  },
 });
