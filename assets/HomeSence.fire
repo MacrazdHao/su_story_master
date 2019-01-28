@@ -1071,7 +1071,10 @@
     "action": {
       "__id__": 154
     },
-    "isWeChat": false
+    "isWeChat": false,
+    "Cards": {
+      "__id__": 124
+    }
   },
   {
     "__type__": "ae200rGiadE84NMxK8A7gwl",
@@ -4254,7 +4257,7 @@
     "target": {
       "__id__": 30
     },
-    "component": "Cards",
+    "component": "CardsController",
     "handler": "onCardOut",
     "customEventData": ""
   },
@@ -4499,9 +4502,6 @@
     "status": 0,
     "UI": {
       "__id__": 123
-    },
-    "Cards": {
-      "__id__": 124
     }
   },
   {
@@ -4517,7 +4517,7 @@
     }
   },
   {
-    "__type__": "59ecb3ChfRCyZt2SGVw54ga",
+    "__type__": "ee3d8P30WdHiZitS/1WUDXq",
     "_name": "",
     "_objFlags": 0,
     "node": {

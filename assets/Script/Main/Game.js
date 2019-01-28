@@ -12,7 +12,6 @@ cc.Class({
     // 1:只有在1下才是可自由操作卡牌状态
     // 2:裁判判断阶段/动画阶段/不可操作状态
     UI: require('UI'),
-    Cards: require('Cards')
   },
   // ------------ 关卡初始化 -----------------------
   init(c, player, level) {
@@ -25,17 +24,18 @@ cc.Class({
     this._aiMgr = c.AI
     this.player = player
     this.level = level
+    this._carsMgr=c.Cards
     this.lateInit()
   },
   lateInit() {
-    this.Cards.init(this)
+    this._carsMgr.init(this)
     this.combatJudge.init(this);
     this.UI.init(this)
     this.initUI()
   },
   initUI() {
     this.status = 1;
-    this.Cards.loadPlayerCard()
+    this._carsMgr.loadPlayerCard()
     this._aiMgr.onAIEnter();
   },
   /*----------------- 卡牌输赢 ------------------------*/
@@ -62,7 +62,7 @@ cc.Class({
     }, 1)
   },
   onPlayerCardWin(data) {
-    this.Cards.resetCard();
+    this._carsMgr.resetCard();
     this.scheduleOnce(() => {
       if (this.level.monster.blood <= data.damage) {
         this._aiMgr.onAIFail()
@@ -79,13 +79,13 @@ cc.Class({
   nextFight() {
     this.upgradePlayerLevel();
     this.level = this._dataMgr.initLevelData(this.player.level + 1)
-    this.Cards.resetCard();
+    this._carsMgr.resetCard();
     this._aiMgr.onAIEnter();
     this.status = 1
   },
 
   onNextTurning() {
-    this.Cards.resetCard();
+    this._carsMgr.resetCard();
     this.status = 1
   },
 

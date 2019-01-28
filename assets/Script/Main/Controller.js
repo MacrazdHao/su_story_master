@@ -16,6 +16,7 @@ cc.Class({
     AI: require('AI'),
     action: require('Action'),
     isWeChat: false,
+    Cards:require('CardsController')
   },
   init() {
     this.data.init(this);
