@@ -33,13 +33,12 @@ cc.Class({
     this.UI.init(this)
     this.initUI()
   },
-
   initUI() {
     this.status = 1;
     this.Cards.loadPlayerCard()
     this._aiMgr.onAIEnter();
   },
-  /*------- 卡牌输赢 ---------*/
+  /*----------------- 卡牌输赢 ------------------------*/
   judgeWinOrFail(data) {
     this.status = 2;
     this.scheduleOnce(() => {
@@ -83,7 +82,6 @@ cc.Class({
     this.Cards.resetCard();
     this._aiMgr.onAIEnter();
     this.status = 1
-    console.log("下一个回合:", this.player);
   },
 
   onNextTurning() {
@@ -92,6 +90,7 @@ cc.Class({
   },
 
   onGameOver() {
+    this.status = 0
     let func = () => {
       this._controller.init();
       this.page.onOpenPage(2);

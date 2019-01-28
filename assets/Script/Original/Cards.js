@@ -40,7 +40,6 @@ cc.Class({
     }
   },
   loadPlayerCard() {
-    console.log("初始化玩家手里的卡牌", this._game.player);
     this.recoveryUICards();
     this.curPlayerCardArr = [];
     this.freshenCards()
@@ -56,9 +55,6 @@ cc.Class({
   synCard() {
     let data = this.curPlayerCardData;
     switch (data.length) {
-      case 0:
-        this._game.dialog.showDialog('当前没有卡牌', '没有卡牌', null, null)
-        break;
       case 1:
         data[0].cardName = this._data.getKongfuNameById(data[0].cardAtt + 1)
         return data[0];
@@ -141,28 +137,15 @@ cc.Class({
         }
     }
   },
-  subPlayerCard() {
-    let cardArr = this._game.player.cards;
-    let data = this.curPlayerCardData;
-    for (let i = 0; i < cardArr.length; i++) {
-      for (let j in data) {
-        if (cardArr[i] == data[j])
-          cardArr.splice(i, 1);
-      }
-    }
-    console.log('玩家剩余卡牌:', cardArr)
-  },
   onCardOut() {
     this._game.status = 2
     if (!this._curCardNum) {
-      cc.log("请选择一张卡牌");
+      this._game.dialog.showDialog('当前没有卡牌', '没有卡牌', null, null)
       return;
     }
     //合成卡牌
-    this.playerCurCard = this.synCard(this.curPlayerCardData);
     this._game.subPlayerCard(this.curPlayerCardData);
-    //失败后再减掉卡牌
-    // this._dataMgr.subPlayerCard(this.curPlayerCardData);
+    this.playerCurCard = this.synCard(this.curPlayerCardData);
     this._game.judgeWinOrFail(this.playerCurCard);
   },
   resetCard() {
