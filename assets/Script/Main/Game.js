@@ -23,15 +23,14 @@ cc.Class({
     this.page = c.page
     this.action = c.action;
     this._aiMgr = c.AI
-    this.test = c.test;
     this.player = player
     this.level = level
     this.lateInit()
   },
   lateInit() {
-    this.initUI()
     this.Cards.init(this)
     this.combatJudge.init(this);
+    this.initUI()
   },
 
   initUI() {
@@ -41,11 +40,7 @@ cc.Class({
   },
   onPlayerEnter() {
     console.log("初始化玩家手里的卡牌", this.player.cards);
-    this.recoveryUICards();
-    this.curPlayerCardArr = [];
-    this.player.cards.forEach(element => {
-      this.instantiateCard(this, element, this.cardsContainer);
-    });
+    this.Cards.loadPlayerCard()
   },
   /*-------AI入场，失败，退场---------*/
   onAIEnter() {
@@ -71,30 +66,13 @@ cc.Class({
       if (this.player.blood == 1) {
         this.onAIWin()
       } else {
-        this.subPlayerBlood(1);
-        this.subPlayerCard(this.curPlayerCardData);
+        //  this.subPlayerBlood(1);
+        //  this.subPlayerCard(this.curPlayerCardData);
         this.onNextTurning();
       }
       this.status = 1;
     }, 1)
   },
-  /*----------Player-------------------- */
-  judgeWinOrFail() {
-    this.status = 2;
-    this.scheduleOnce(() => {
-      let skill = this._aiMgr.runSkill();
-      let booleValue = this.combatJudge.checkWhoWin(this.playerCurCard, skill);
-      if (booleValue.isWin) {
-        console.log("玩家赢：");
-        this.onPlayerCardWin(booleValue)
-      } else {
-        console.log("AI赢");
-        this.onAICardWin(booleValue);
-      }
-    }, 1);
-    console.log("巅峰对决：", this.level.monster, this.playerCurCard);
-  },
-
   onPlayerCardWin(data) {
     this.resetCard();
     this.scheduleOnce(() => {
@@ -108,7 +86,7 @@ cc.Class({
     }, 1);
   },
 
-
+  /*----------Player-------------------- */
   //升级 level + 1 blood + 1
   nextFight() {
     this.upgradePlayerLevel();
@@ -135,6 +113,21 @@ cc.Class({
       null
     );
   },
+  judgeWinOrFail() {
+    this.status = 2;
+    this.scheduleOnce(() => {
+      let skill = this._aiMgr.runSkill();
+      let booleValue = this.combatJudge.checkWhoWin(this.playerCurCard, skill);
+      if (booleValue.isWin) {
+        console.log("玩家赢：");
+        this.onPlayerCardWin(booleValue)
+      } else {
+        console.log("AI赢");
+        this.onAICardWin(booleValue);
+      }
+    }, 1);
+    console.log("巅峰对决：", this.level.monster, this.playerCurCard);
+  },
   /**
    * 玩家通过关卡升级操作
    * @author kunji
@@ -160,5 +153,5 @@ cc.Class({
     }
     console.log('玩家剩余卡牌:', cardArr)
   },
- 
+
 });
